@@ -18,8 +18,7 @@ class Tournament:
         self.players_list = []
 
     def add_player_in_players_list(self, player):
-        """Ajoute un joueur dans le tournoi."""
-        pass
+        self.players_list.append(player)
 
     def remove_player_from_players_list(self, player):
         """Retire un joueur dans le tournoi."""
