@@ -28,17 +28,13 @@ class Tournament:
         """Ajoute un tour au tournoi."""
         pass
 
-    def update_player_ranking(self, player):
-        """Met à jour le classement d'un joueur du tournoi."""
-        pass
-
 
 def create_tournament():
     """Préparation des attributs du tournoi."""
     name = 'The tournoi' #input('Quelle est le nom du tournoi ? : ')
     location = 'Paris' #input('Où ce déroule le tournoi ? : ')
     mode = {1: 'bullet', 2: 'blitz', 3: 'rapide'}
-    print(f'Voici les modes de gestion de temps {mode}.')
+    #print(f'Voici les modes de gestion de temps {mode}.')
     choice = 1 #int(input('Quelle mode de choisissez_vous ? (1, 2 ou 3)'))
     time_controller = mode[choice]
     duration = 2 #int(input('Combien de jour le tournoi vas-t-il durer ? : '))
@@ -54,13 +50,13 @@ def create_tournament():
         description = input('Votre description : ')
     else:
         description = ''
-    print(f'''Récapitulatif :
-    Nom du tournoi: {name}
-    Localisation: {location}
-    Mode de jeux: {time_controller}
-    Durée du tournoi: {duration} jours
-    Nombre de tour: {number_of_rounds}
-    Description: {description}''')
+    # print(f'''Récapitulatif :
+    # Nom du tournoi: {name}
+    # Localisation: {location}
+    # Mode de jeux: {time_controller}
+    # Durée du tournoi: {duration} jours
+    # Nombre de tour: {number_of_rounds}
+    # Description: {description}''')
     choice = 'O' #input('Validez-vous la création du tournoi ? Oui = o')
     if choice.upper() == 'O':
         if duration > 1:

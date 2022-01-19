@@ -5,12 +5,16 @@ import random
 
 
 class Player:
-    def __init__(self, last_name, first_surname, birthday, sexe, rank):
+    def __init__(self, last_name, first_name, birthday, sexe, rank):
         """Initialise un joueur."""
         self.last_name = last_name
-        self.first_surname = first_surname
+        self.first_name = first_name
         self.birthday = birthday
         self.sexe = sexe
+        self.rank = rank
+    
+    def update_player_rank(self, rank):
+        """Met à jour le classement du joueur."""
         self.rank = rank
 
 
@@ -31,14 +35,18 @@ def create_player():
         while rank < 0:
             print('Le classement ne peux pas être négatif.')
             rank = int(input('Classement du joueur: '))
-    print(f'''Récapitulatif :
-    Nom: {last_name}
-    Prénom: {first_name}
-    Date de naissance: {birthday}
-    Sexe: {sexe}
-    Classement: {rank}''')
+    # print(f'''Récapitulatif :
+    # Nom: {last_name}
+    # Prénom: {first_name}
+    # Date de naissance: {birthday}
+    # Sexe: {sexe}
+    # Classement: {rank}''')
     choice = 'O' #input('Validez-vous la création du joueur ? Oui = o')
     if choice.upper() == 'O':
         player = Player(last_name, first_name, birthday, sexe, rank)
     
         return player
+
+def select_random_player_in_database(self):
+    '''Simule le choix de 8 joueurs dans la base de données.'''
+    return random.sample(self, 8)
