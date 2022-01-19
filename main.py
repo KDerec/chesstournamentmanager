@@ -4,6 +4,7 @@ from bin.tournament import create_tournament
 from bin.player import create_player, select_random_player_in_database
 from bin.round import create_round
 from bin.match import create_match_results
+from bin.match import create_match_list
 
 def main():
     database_players = []
@@ -27,6 +28,8 @@ def main():
             if choice.upper() == 'O':
                 round.ending_date = '{}'.format(time.strftime("%Y-%m-%d_%Hh"))
                 results = create_match_results(player_matchmaking)
+                match_list = create_match_list(results, player_matchmaking)
+                round.match_list = match_list
 
 if __name__ == "__main__":
     main()

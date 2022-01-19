@@ -35,7 +35,17 @@ def create_match_results(self):
     
     return results
 
+def create_match_list(results, players):
+    """Créer une liste de matchs contenant des joueurs et des scores."""
+    match_list = []
+    while results != []:
+        l1 = [players[0], results[0]]
+        l2 = [players[1], results[1]]
+        match = (l1, l2)
+        match_list.append(match)
+        players = players[2:]
+        results = results[2:]
+    
+    return match_list
 
-def create_match():
-    """Créer un match."""
-    pass
+        

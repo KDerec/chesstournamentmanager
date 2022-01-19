@@ -8,7 +8,7 @@ class Round:
         self.name =  name
         self.beginning_date = beginning_date
         self.ending_date = ending_date
-        self.matchs_list = []
+        self.match_list = []
 
 
 def create_round(i):
