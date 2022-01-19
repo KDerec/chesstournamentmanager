@@ -1,5 +1,6 @@
 """Définit un tour."""
 
+import time
 
 class Round:
     def __init__(self, name, beginning_date, ending_date):
@@ -9,6 +10,12 @@ class Round:
         self.ending_date = ending_date
         self.matchs_list = []
 
-    def add_match_to_matchs_list(self, match):
-        """Ajoute un match à la liste de matchs du tour."""
-        pass
+
+def create_round(i):
+    '''Préparation des attributs d'un tour.'''
+    name = f'Round {i+1}'
+    beginning_date = '{}'.format(time.strftime("%Y-%m-%d_%Hh"))
+    ending_date = ''
+    round = Round(name, beginning_date, ending_date)
+
+    return round
