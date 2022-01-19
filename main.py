@@ -1,4 +1,5 @@
 import time
+from bin.matchmaking import matchmaking
 from bin.tournament import create_tournament
 from bin.player import create_player, select_random_player_in_database
 from bin.round import create_round
@@ -20,6 +21,7 @@ def main():
         choice = 'O' #input(f'Commencer le tour {i+1} ? Oui = o')
         if choice.upper() == 'O':
             round = create_round(i)
+            player_matchmaking = matchmaking(round, tournament.players_list)
             choice = 'O' #input(f'Terminer le tour {i+1} ? Oui = o')
             if choice.upper() == 'O':
                 round.ending_date = '{}'.format(time.strftime("%Y-%m-%d_%Hh"))
