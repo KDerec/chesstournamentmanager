@@ -23,13 +23,14 @@ def main():
         choice = 'O' #input(f'Commencer le tour {i+1} ? Oui = o')
         if choice.upper() == 'O':
             round = create_round(i)
-            player_matchmaking = matchmaking(round, tournament.players_list)
+            player_matchmaking = matchmaking(round, tournament)
             choice = 'O' #input(f'Terminer le tour {i+1} ? Oui = o')
             if choice.upper() == 'O':
                 round.ending_date = '{}'.format(time.strftime("%Y-%m-%d_%Hh"))
                 results = create_match_results(player_matchmaking)
                 match_list = create_match_list(results, player_matchmaking)
                 round.match_list = match_list
+                tournament.add_round_in_rounds_list(round)
 
 if __name__ == "__main__":
     main()

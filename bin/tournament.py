@@ -26,7 +26,7 @@ class Tournament:
 
     def add_round_in_rounds_list(self, round):
         """Ajoute un tour au tournoi."""
-        pass
+        self.rounds_list.append(round)
 
 
 def create_tournament():

@@ -28,6 +28,7 @@ def create_match_results(self):
                     print('Veuillez inscrire un score de 0, 1 ou 0.5')
             except ValueError:
                 print('Vous n\'avez pas inscrit un chiffre.')
+        
         results.append(result_one)
         results.append(result_two)
         players = players[2:]
