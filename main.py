@@ -31,6 +31,14 @@ def main():
                 match_list = create_match_list(results, player_matchmaking)
                 round.match_list = match_list
                 tournament.add_round_in_rounds_list(round)
+    
+    classement, player_matchmaking = matchmaking(round, tournament, end = True)
+    print('\nLes résultats du tournoi sont : ')
+    for i in range(len(classement)):
+        print(f'{i+1}# avec {classement[player_matchmaking[i]]} points: '
+        f'{player_matchmaking[i].first_name} {player_matchmaking[i].last_name}')
+        
+                
 
 if __name__ == "__main__":
     main()
