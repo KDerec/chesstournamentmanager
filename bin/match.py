@@ -1,5 +1,7 @@
 """"Définit un match."""
 
+import random
+
 
 def create_match_results(self):
     """Créer une liste de score."""
@@ -7,14 +9,14 @@ def create_match_results(self):
     results = []
     players = self
     while players != []:
-        print(f'\nNotation match #{i} : '
-        f'{players[0].first_name} {players[0].last_name} vs '
-        f'{players[1].first_name} {players[1].last_name}')
+        # print(f'\nNotation match #{i} : '
+        # f'{players[0].first_name} {players[0].last_name} vs '
+        # f'{players[1].first_name} {players[1].last_name}')
         while True:
             try:
-                result_one = float(input(f'Résulat de {players[0].first_name} ' 
-                f'{players[0].last_name} : '
-                '(1 pour gagner, 0 perdu, 0.5 pour égalité) : '))
+                result_one = random.choice([0,0.5,1]) #float(input(f'Résulat de {players[0].first_name} ' 
+                #f'{players[0].last_name} : '
+                #'(1 pour gagner, 0 perdu, 0.5 pour égalité) : '))
                 if result_one == 0:
                     result_two = 1
                     break
