@@ -39,8 +39,31 @@ def matchmaking(round, tournament, end = False):
                 d1[player_two] += score_two
         
         d1 = dict(sorted(d1.items(), key=lambda item: item[1], reverse=True))
-        for cle in d1:
-            player_matchmaking.append(cle)
+        d2 = dict(d1)
+        l1 = list(d2)
+
+        while d2 != {}:
+            temp_list = []
+            try:
+                temp_list.append(l1[0])
+            except IndexError:
+                break
+            for player in l1:
+                if d2[temp_list[0]] == d2[player]:
+                    if player in temp_list:
+                        continue
+                    else:
+                        temp_list.append(player)
+                    
+                    del d2[player]
+
+            temp_list = sorted(temp_list, key=lambda player: player.rank, reverse=True)
+
+            for player in temp_list:
+                player_matchmaking.append(player)
+                l1.remove(player)
+
+            i += 1
         
         if end == True:
             return d1, player_matchmaking
