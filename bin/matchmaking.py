@@ -57,17 +57,30 @@ def matchmaking(round, tournament, end = False):
                     
                     del d2[player]
 
-            temp_list = sorted(temp_list, key=lambda player: player.rank, reverse=True)
-
+            temp_list = sorted(temp_list, key=lambda player: player.rank, 
+                                reverse=True)
+        
             for player in temp_list:
                 player_matchmaking.append(player)
                 l1.remove(player)
 
             i += 1
-        
+
         if end == True:
             return d1, player_matchmaking
         else:
+            for i in range(len(tournament.rounds_list)):
+                for j in range(len(tournament.rounds_list[i].match_list)):
+                    player_one = tournament.rounds_list[i].match_list[j][0][0]
+                    player_two = tournament.rounds_list[i].match_list[j][1][0]
+
+                    if (player_one == player_matchmaking[0] and 
+                        player_two == player_matchmaking[1]):
+                        print(f'{player_one.last_name} à déjà joué avec '
+                              f'{player_two.last_name}')
+                        player_matchmaking[1], player_matchmaking[2] = (
+                        player_matchmaking[2], player_matchmaking[1])
+            
             p1 = player_matchmaking
             for i in range(len(p1) // 2):
                 print(f'Match #{i+1} : '
