@@ -6,11 +6,11 @@ def split_list(self):
     half = len(self) // 2
     return self[:half], self[half:]
 
-def matchmaking(round, tournament, end = False):
+def matchmaking(round, tournament, end=False):
     """Génére le jumelage de joueur."""
     player_matchmaking = []
     if round.name == 'Round 1':
-        sorted_list = sorted(tournament.players_list, 
+        sorted_list = sorted(tournament.players_list,
                                         key=lambda player: player.rank,
                                         reverse=True)
         top_players, low_players = split_list(sorted_list)

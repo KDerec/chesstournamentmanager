@@ -38,6 +38,7 @@ def create_match_results(self):
     
     return results
 
+
 def create_match_list(results, players):
     """Créer une liste de matchs contenant des joueurs et des scores."""
     match_list = []
