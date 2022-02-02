@@ -100,3 +100,6 @@ def display_players_already_played_together(player_one, player_two):
     print(f'{player_one.last_name} à déjà joué avec {player_two.last_name}.')
 
 
+def display_standings(player_matchmaking, classement, i):
+    print(f'{i+1}# avec {classement[player_matchmaking[i]]} points: '
+        f'{player_matchmaking[i].first_name} {player_matchmaking[i].last_name}')

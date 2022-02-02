@@ -22,10 +22,6 @@ class Tournament:
         self.players_list.append(player)
         player.display_added_player_message()
 
-    def remove_player_from_players_list(self, player):
-        """Retire un joueur dans le tournoi."""
-        pass
-
     def add_round_in_rounds_list(self, round):
         """Ajoute un tour au tournoi."""
         self.rounds_list.append(round)

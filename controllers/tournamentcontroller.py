@@ -159,3 +159,11 @@ def start_tournament(tournament):
                 round.match_list = match_list
                 tournament.add_round_in_rounds_list(round)
                 break
+    
+    prepare_standings(round, tournament)
+
+def prepare_standings(round, tournament):
+    player_matchmaking, classement = matchmakingcontroller.matchmaking(round, tournament, end = True)
+    print('\nLes résultats du tournoi sont : ')
+    for i in range(len(classement)):
+        menumessage.display_standings(player_matchmaking, classement, i)
