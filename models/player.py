@@ -26,5 +26,5 @@ class Player:
         Classement: {self.rank}''')
 
     def display_added_player_message(self):
-        print(f'{self.last_name} {self.first_name} est ajouté.')
+        print(f'{self.last_name} {self.first_name} est ajouté.\n')
 

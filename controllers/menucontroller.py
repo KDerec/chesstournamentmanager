@@ -2,14 +2,10 @@
 # import sys
 # mydir = os.getcwd()
 # sys.path.append(mydir)
-import time
-import models
 from controllers import playercontroller
 from controllers import tournamentcontroller
 from views.message import menumessage
 from views.message import errormessage
-from models.database import Database
-
 
 
 def run():
@@ -83,19 +79,6 @@ def create_round(i):
     round = Round(name, beginning_date, ending_date)
 
     return round
-
-def select_random_player_in_database(self):
-    '''Simule le choix de 8 joueurs dans la base de données.'''
-    return random.sample(self, 8)
-
-def generate_players_database():
-    players_database = []
-
-    for i in range(24):
-        player = create_player()
-        players_database.append(player)
-    
-    return players_database
 
 if __name__ == "__main__":
     run()

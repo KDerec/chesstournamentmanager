@@ -1,61 +1,71 @@
 """Define the menus."""
 
 
+from views.input import menuinput
+
+
 def display_main_menu():
     """Display main menu and return a user choice."""
     print('''Menu principal :
-          1. Tournoi ->
-          2. Joueurs ->
-          3. Rapports ->
-          4. Quitter.
-          ''')
-    
-    choice = int(input('Sélectionnez un numéro (1, 2 ou 3) : '))
+        1. Tournoi ->
+        2. Joueurs ->
+        3. Rapports ->
+        4. Quitter.
+        ''')
 
-    return choice
+    return menuinput.input_a_number()
 
 
 def display_tournament_menu():
     """Display tournament menu and return a user choice."""
     print('''Menu tournoi :
-          1. Commencer un tournoi ->
-          2. Retour <-
-          ''')
+        1. Commencer un tournoi ->
+        2. Retour <-
+        ''')
     
-    choice = int(input('Sélectionnez un numéro (1 ou 2) : '))
-
-    return choice
+    return menuinput.input_a_number()
 
 
 def display_player_menu():
     """Display player menu and return a user choice."""
     print('''Menu joueur :
-          1. Ajouter un nouveau joueur à la base de donnée ->
-          2. Supprimer un joueur de la base de donnée ->
-          3. Retour <-
-          ''')
-    
-    choice = int(input('Sélectionnez un numéro (1, 2 ou 3) : '))
+        1. Ajouter un nouveau joueur à la base de donnée ->
+        2. Supprimer un joueur de la base de donnée ->
+        3. Retour <-
+        ''')
 
-    return choice
+    return menuinput.input_a_number()
 
 
 def display_report_menu():
     """Display report menu and return a user choice."""
     print('''Menu rapport :
-          1. Afficher un rapport ->
-          2. Exporter un rapport ->
-          3. Retour <-
-          ''')
+        1. Afficher un rapport ->
+        2. Exporter un rapport ->
+        3. Retour <-
+        ''')
     
-    choice = int(input('Sélectionnez un numéro (1, 2 ou 3) : '))
+    return menuinput.input_a_number()
 
-    return choice
 
 def display_exit_message():
       """Display exit message and return a user choice."""
       print('Tapez la lettre "q" pour confirmez l\'arrêt de l\'application : ')
 
-      choice = input()
+      return input()
 
-      return choice
+
+def display_how_many_player_will_play():
+    print('Combien de joueur vont participer au tournoi ? : ')
+
+    return menuinput.input_a_number()
+
+def display_wich_player_will_play():
+    print('Sélectionner un joueur à ajouter au tournoi avec son numéro. ')
+
+    return menuinput.input_a_number()
+
+def display_validate_chosen_players():
+    print('Validez-vous cette sélection de joueur ?')
+
+    return menuinput.input_choice()
