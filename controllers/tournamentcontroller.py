@@ -3,6 +3,9 @@ from datetime import timedelta
 from models.database import Database
 from controllers import errorcontroller
 from controllers import playercontroller
+from controllers import roundcontroller
+from controllers import matchmakingcontroller
+from controllers import matchcontroller
 from views.message import errormessage
 from views.message import menumessage
 from views.input.tournamentinput import InputTournament
@@ -97,6 +100,8 @@ def prepare_tournament():
             playercontroller.create_player()
         
         select_player_to_add_in_tournament(tournament)
+        menumessage.display_ready_to_start_tournament()
+        start_tournament(tournament)
 
 def select_player_to_add_in_tournament(self):
     while True:
@@ -133,5 +138,24 @@ def select_player_to_add_in_tournament(self):
     if choice.upper() != 'O':
         self.players_list = []
         select_player_to_add_in_tournament(self)
-    else:
-        print('OK')
+
+
+def start_tournament(self):
+    for i in range(self.number_of_rounds):
+        while True:
+            choice = menumessage.display_start_round(i)
+            if choice.upper() == 'O':
+                round = roundcontroller.create_round(i)
+                round.display_round_name()
+                player_matchmaking = matchmakingcontroller.matchmaking(round, self)
+                break
+
+        while True:
+            choice = menumessage.display_end_round(i)
+            if choice.upper() == 'O':
+                roundcontroller.create_ending_round_date(round)
+                results = matchcontroller.create_match_results(player_matchmaking)
+                match_list = matchcontroller.create_match_list(results, player_matchmaking)
+                round.match_list = match_list
+                self.add_round_in_rounds_list(round)
+                break

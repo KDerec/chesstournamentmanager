@@ -69,16 +69,5 @@ def run():
     exit()
 
 
-
-
-def create_round(i):
-    '''Préparation des attributs d'un tour.'''
-    name = f'Round {i+1}'
-    beginning_date = '{}'.format(time.strftime("%Y-%m-%d_%Hh"))
-    ending_date = ''
-    round = Round(name, beginning_date, ending_date)
-
-    return round
-
 if __name__ == "__main__":
     run()

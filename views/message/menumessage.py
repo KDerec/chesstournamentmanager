@@ -66,6 +66,21 @@ def display_wich_player_will_play():
     return menuinput.input_a_number()
 
 def display_validate_chosen_players():
-    print('Validez-vous cette sélection de joueur ?')
+    print('Validez-vous cette sélection de joueur et démarrer le tournoi ?')
+
+    return menuinput.input_choice()
+
+def display_ready_to_start_tournament():
+    print('Le tournoi démarre !')
+
+
+def display_start_round(self):
+    print(f'Commencer le tour {self+1} ?')
+
+    return menuinput.input_choice()
+
+
+def display_end_round(self):
+    print(f'Terminer le tour {self+1} ?')
 
     return menuinput.input_choice()
