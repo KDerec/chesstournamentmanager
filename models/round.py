@@ -9,3 +9,5 @@ class Round:
         self.ending_date = ending_date
         self.match_list = []
 
+    def display_round_name(self):
+        print(self.name)

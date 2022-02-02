@@ -1,6 +1,9 @@
 """Définit le jumelage des joueurs."""
 
 
+from views.message import menumessage
+
+
 def split_list(self):
     '''Divise une liste en deux.'''
     half = len(self) // 2
@@ -8,85 +11,99 @@ def split_list(self):
 
 def matchmaking(round, tournament, end=False):
     """Génére le jumelage de joueur."""
-    player_matchmaking = []
+
     if round.name == 'Round 1':
-        sorted_list = sorted(tournament.players_list,
-                                        key=lambda player: player.rank,
-                                        reverse=True)
-        top_players, low_players = split_list(sorted_list)
-
-        for i in range(len(top_players)):
-            print(f'Match #{i+1} : '
-            f'{top_players[i].first_name} {top_players[i].last_name} vs '
-            f'{low_players[i].first_name} {low_players[i].last_name}')
-
-            player_matchmaking.append(top_players[i])
-            player_matchmaking.append(low_players[i])
-
-        return player_matchmaking
+        return matchmaking_for_first_round(tournament)
     
     else:
-        d1 = {}
-        for i in range(len(tournament.players_list)):
-            d1[tournament.players_list[i]] = 0
-        for i in range(len(tournament.rounds_list)):
-            for j in range(len(tournament.rounds_list[i].match_list)):
-                player_one = tournament.rounds_list[i].match_list[j][0][0]
-                player_two = tournament.rounds_list[i].match_list[j][1][0]
-                score_one = tournament.rounds_list[i].match_list[j][0][1]
-                score_two = tournament.rounds_list[i].match_list[j][1][1]
-                d1[player_one] += score_one
-                d1[player_two] += score_two
-        
-        d1 = dict(sorted(d1.items(), key=lambda item: item[1], reverse=True))
-        d2 = dict(d1)
-        l1 = list(d2)
+        return matchmaking_for_others_round(tournament, end)
 
-        while d2 != {}:
-            temp_list = []
-            try:
-                temp_list.append(l1[0])
-            except IndexError:
-                break
-            for player in l1:
-                if d2[temp_list[0]] == d2[player]:
-                    if player in temp_list:
-                        continue
-                    else:
-                        temp_list.append(player)
-                    
-                    del d2[player]
 
-            temp_list = sorted(temp_list, key=lambda player: player.rank, 
+def matchmaking_for_first_round(tournament):
+    players_matchmaking = []
+    sorted_list = sorted(tournament.players_list,
+                                key=lambda player: player.rank,
                                 reverse=True)
-        
-            for player in temp_list:
-                player_matchmaking.append(player)
-                l1.remove(player)
+    top_players, low_players = split_list(sorted_list)
 
-            i += 1
+    for i in range(len(top_players)):
+        menumessage.display_first_round_versus(i, top_players, low_players)
+        players_matchmaking.append(top_players[i])
+        players_matchmaking.append(low_players[i])
 
-        if end == True:
-            return d1, player_matchmaking
-        else:
-            for i in range(len(tournament.rounds_list)):
-                for j in range(len(tournament.rounds_list[i].match_list)):
-                    player_one = tournament.rounds_list[i].match_list[j][0][0]
-                    player_two = tournament.rounds_list[i].match_list[j][1][0]
+    return players_matchmaking
 
-                    if (player_one == player_matchmaking[0] and 
-                        player_two == player_matchmaking[1]):
-                        print(f'{player_one.last_name} à déjà joué avec '
-                              f'{player_two.last_name}')
-                        player_matchmaking[1], player_matchmaking[2] = (
-                        player_matchmaking[2], player_matchmaking[1])
-            
-            p1 = player_matchmaking
-            for i in range(len(p1) // 2):
-                print(f'Match #{i+1} : '
-                f'{p1[i].first_name} {p1[i].last_name} ({d1[p1[i]]}) vs '
-                f'{p1[i+1].first_name} {p1[i+1].last_name} ({d1[p1[i+1]]})')
-                p1 = p1[1:]
 
-            return player_matchmaking
-      
+def matchmaking_for_others_round(tournament, end):
+    players_matchmaking = []
+    players_and_scores = {}
+
+    for i in range(len(tournament.players_list)):
+        players_and_scores[tournament.players_list[i]] = 0
+
+    for i in range(len(tournament.rounds_list)):
+        for j in range(len(tournament.rounds_list[i].match_list)):
+            player_one = tournament.rounds_list[i].match_list[j][0][0]
+            player_two = tournament.rounds_list[i].match_list[j][1][0]
+            score_one = tournament.rounds_list[i].match_list[j][0][1]
+            score_two = tournament.rounds_list[i].match_list[j][1][1]
+            players_and_scores[player_one] += score_one
+            players_and_scores[player_two] += score_two
+    
+    players_and_scores = dict(sorted(players_and_scores.items(), key=lambda item: item[1], reverse=True))
+    players_and_scores_to_delete = dict(players_and_scores)
+    players_list = list(players_and_scores)
+
+    while players_and_scores_to_delete != {}:
+        temp_player_list = []
+        try:
+            temp_player_list.append(players_list[0])
+        except IndexError:
+            break
+        for player in players_list:
+            if players_and_scores_to_delete[temp_player_list[0]] == players_and_scores_to_delete[player]:
+                if player in temp_player_list:
+                    continue
+                else:
+                    temp_player_list.append(player)
+                
+                del players_and_scores_to_delete[player]
+
+        temp_player_list = sorted(temp_player_list, key=lambda player: player.rank, 
+                            reverse=True)
+    
+        for player in temp_player_list:
+            players_matchmaking.append(player)
+            players_list.remove(player)
+
+    if end == True:
+        return players_matchmaking, players_and_scores
+
+    else:
+        players_matchmaking = check_if_players_already_played_together(tournament, players_matchmaking)
+
+        prepare_versus_message(players_matchmaking, players_and_scores)
+
+        return players_matchmaking
+
+
+def check_if_players_already_played_together(tournament, players_matchmaking):
+    for i in range(len(tournament.rounds_list)):
+        for j in range(len(tournament.rounds_list[i].match_list)):
+            player_one = tournament.rounds_list[i].match_list[j][0][0]
+            player_two = tournament.rounds_list[i].match_list[j][1][0]
+
+            if (player_one == players_matchmaking[0] and 
+                player_two == players_matchmaking[1]):
+                menumessage.display_players_already_played_together(player_one, player_two)
+                players_matchmaking[1], players_matchmaking[2] = (
+                players_matchmaking[2], players_matchmaking[1])
+    
+    return players_matchmaking
+
+def prepare_versus_message(players_matchmaking, players_and_scores):
+    p1 = players_matchmaking
+    d1 = players_and_scores
+    for i in range(len(p1) // 2):
+        menumessage.display_other_round_versus(i, p1, d1)
+        p1 = p1[1:]

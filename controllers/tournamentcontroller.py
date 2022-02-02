@@ -140,22 +140,22 @@ def select_player_to_add_in_tournament(self):
         select_player_to_add_in_tournament(self)
 
 
-def start_tournament(self):
-    for i in range(self.number_of_rounds):
+def start_tournament(tournament):
+    for i in range(tournament.number_of_rounds):
         while True:
             choice = menumessage.display_start_round(i)
             if choice.upper() == 'O':
                 round = roundcontroller.create_round(i)
                 round.display_round_name()
-                player_matchmaking = matchmakingcontroller.matchmaking(round, self)
+                players_matchmaking = matchmakingcontroller.matchmaking(round, tournament)
                 break
 
         while True:
             choice = menumessage.display_end_round(i)
             if choice.upper() == 'O':
                 roundcontroller.create_ending_round_date(round)
-                results = matchcontroller.create_match_results(player_matchmaking)
-                match_list = matchcontroller.create_match_list(results, player_matchmaking)
+                results = matchcontroller.create_match_results(players_matchmaking)
+                match_list = matchcontroller.create_match_list(results, players_matchmaking)
                 round.match_list = match_list
-                self.add_round_in_rounds_list(round)
+                tournament.add_round_in_rounds_list(round)
                 break
