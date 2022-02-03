@@ -1,7 +1,8 @@
 """"Définit un match."""
 
 import random
-
+from views.message import menumessage
+from views.message import errormessage
 
 def create_match_results(self):
     """Créer une liste de score."""
@@ -9,14 +10,10 @@ def create_match_results(self):
     results = []
     players = self
     while players != []:
-        # print(f'\nNotation match #{i} : '
-        # f'{players[0].first_name} {players[0].last_name} vs '
-        # f'{players[1].first_name} {players[1].last_name}')
+        menumessage.display_match_notation(i, players)
         while True:
             try:
-                result_one = random.choice([0,0.5,1]) #float(input(f'Résulat de {players[0].first_name} ' 
-                #f'{players[0].last_name} : '
-                #'(1 pour gagner, 0 perdu, 0.5 pour égalité) : '))
+                result_one = menumessage.display_note_the_match(players) # random.choice([0,0.5,1])
                 if result_one == 0:
                     result_two = 1
                     break
@@ -27,9 +24,9 @@ def create_match_results(self):
                     result_two = 0.5
                     break
                 else:
-                    print('Veuillez inscrire un score de 0, 1 ou 0.5')
+                    errormessage.display_wrong_choice_message()
             except ValueError:
-                print('Vous n\'avez pas inscrit un chiffre.')
+                errormessage.display_not_an_integer_or_float_number()
         
         results.append(result_one)
         results.append(result_two)

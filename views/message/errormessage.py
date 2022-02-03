@@ -9,6 +9,10 @@ def display_not_an_integer_message():
     print('!! Vous n\'avez pas choisi un chiffre. !!')
 
 
+def display_not_an_integer_or_float_number():
+    print('!! Vous n\'avez pas choisi un nombre entier ou à virgule. !!')
+
+
 def display_its_blank_message():
     print('!! Vous n\'avez pas saisie de texte. !!')
 
@@ -28,4 +32,4 @@ def display_not_possible_birthday_date():
             Année : entre 1900 et l'année actuelle moins seize.''')
 
 def display_this_player_is_already_chosen():
-    print('Le joueur choisi est déjà dans la liste des joueurs.')
+    print('!! Le joueur choisi est déjà dans la liste des joueurs. !!')

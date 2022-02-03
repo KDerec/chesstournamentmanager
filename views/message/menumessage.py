@@ -87,8 +87,8 @@ def display_end_round(self):
 
 def display_first_round_versus(i, top_players, low_players):
     print(f'Match #{i+1} : '
-    f'{top_players[i].first_name} {top_players[i].last_name} vs '
-    f'{low_players[i].first_name} {low_players[i].last_name}')
+    f'{top_players[i].first_name} {top_players[i].last_name} {top_players[i].rank} vs '
+    f'{low_players[i].first_name} {low_players[i].last_name} {low_players[i].rank}')
 
 
 def display_other_round_versus(i, p1, d1):
@@ -103,3 +103,16 @@ def display_players_already_played_together(player_one, player_two):
 def display_standings(player_matchmaking, classement, i):
     print(f'{i+1}# avec {classement[player_matchmaking[i]]} points: '
         f'{player_matchmaking[i].first_name} {player_matchmaking[i].last_name}')
+
+
+def display_match_notation(i, players):
+    print(f'\nNotation match #{i} : '
+            f'{players[0].first_name} {players[0].last_name} vs '
+            f'{players[1].first_name} {players[1].last_name}')
+
+
+def display_note_the_match(players):
+    print(f'Résulat de {players[0].first_name} {players[0].last_name} '
+            '(1 pour gagner, 0 perdu, 0.5 pour égalité) : ')
+
+    return menuinput.input_a_float()
