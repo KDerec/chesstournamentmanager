@@ -26,9 +26,7 @@ class Tournament:
         """Ajoute un tour au tournoi."""
         self.rounds_list.append(round)
 
-    def dispay_player_in_tournament(self):
+    def display_player_in_tournament(self):
         print('Les joueurs suivant participent au tournois :')
         for player in self.players_list:
-            print(player.last_name, player.first_name, player.rank)
-
-
+            print(f'{self.players_list.index(player)}. {player.last_name} {player.first_name} ({player.rank})')

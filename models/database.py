@@ -11,5 +11,4 @@ class Database:
 
     def dispay_player_in_database(self):
         for player in self.player_database:
-            print(self.player_database.index(player), 
-                    player.last_name, player.first_name, player.rank)
+            print(f'{self.player_database.index(player)}. {player.last_name} {player.first_name} ({player.rank})')

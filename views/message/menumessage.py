@@ -64,6 +64,23 @@ def display_wich_player_will_play():
 
     return menuinput.input_a_number()
 
+
+def display_change_player_rank():
+    print('Voulez-vous modifier le classement d\'un joueur ?')
+
+    return menuinput.input_choice()
+
+def display_select_a_player_to_change_his_rank():
+    print('Sélectionner un joueur pour modifier son classement.')
+
+    return menuinput.input_a_number()
+
+
+def display_choice_new_rank():
+    print('Entrer un nombre pour le nouveau classement : ')
+
+    return menuinput.input_a_number()
+
 def display_validate_chosen_players():
     print('Validez-vous cette sélection de joueur et démarrer le tournoi ?')
 
@@ -87,13 +104,13 @@ def display_end_round(self):
 def display_first_round_versus(i, top_players, low_players):
     print(f'Match #{i+1} : '
     f'{top_players[i].first_name} {top_players[i].last_name} {top_players[i].rank} vs '
-    f'{low_players[i].first_name} {low_players[i].last_name} {low_players[i].rank}')
+    f'{low_players[i].first_name} {low_players[i].last_name} {low_players[i].rank} (joue en blanc).')
 
 
 def display_other_round_versus(i, p1, d1):
     print(f'Match #{i+1} : '
         f'{p1[i].first_name} {p1[i].last_name} ({d1[p1[i]]}) vs '
-        f'{p1[i+1].first_name} {p1[i+1].last_name} ({d1[p1[i+1]]})')
+        f'{p1[i+1].first_name} {p1[i+1].last_name} ({d1[p1[i+1]]}) (joue en blanc).')
 
 def display_players_already_played_together(player_one, player_two):
     print(f'{player_one.last_name} à déjà joué avec {player_two.last_name}.')

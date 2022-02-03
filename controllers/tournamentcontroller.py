@@ -143,6 +143,7 @@ def select_player_to_add_in_tournament(tournament):
 
 def start_tournament(tournament):
     for i in range(tournament.number_of_rounds):
+        propose_to_change_player_rank(tournament)
         while True:
             choice = menumessage.display_start_round(i)
             if choice.upper() == 'O':
@@ -152,6 +153,7 @@ def start_tournament(tournament):
                 break
 
         while True:
+            propose_to_change_player_rank(tournament)
             choice = menumessage.display_end_round(i)
             if choice.upper() == 'O':
                 roundcontroller.create_ending_round_date(round)
@@ -161,6 +163,7 @@ def start_tournament(tournament):
                 tournament.add_round_in_rounds_list(round)
                 break
     
+    propose_to_change_player_rank(tournament)
     prepare_standings(round, tournament)
 
 
@@ -169,3 +172,25 @@ def prepare_standings(round, tournament):
     print('\nLes résultats du tournoi sont : ')
     for i in range(len(classement)):
         menumessage.display_standings(player_matchmaking, classement, i)
+
+
+def propose_to_change_player_rank(tournament):
+    choice = menumessage.display_change_player_rank()
+    if choice.upper() == 'O':
+        select_player_to_change_his_rank(tournament)
+
+def select_player_to_change_his_rank(tournament):
+    tournament.display_player_in_tournament()
+    while True:
+        try:
+            selected_player = menumessage.display_select_a_player_to_change_his_rank()
+            new_rank = menumessage.display_choice_new_rank()
+            if new_rank < 0:
+                raise errorcontroller.NotPositiveIntegerException
+            tournament.players_list[selected_player].update_player_rank(new_rank)
+            break
+        except ValueError:
+            errormessage.display_not_an_integer_message()
+        except errorcontroller.NotPositiveIntegerException:
+            errormessage.display_not_positive_integer()
+    

@@ -13,9 +13,10 @@ class Player:
         self.sexe = sexe
         self.rank = rank
     
-    def update_player_rank(self, rank):
+    def update_player_rank(self, new_rank):
         """Met à jour le classement du joueur."""
-        self.rank = rank
+        self.rank = new_rank
+        print(f'Le classement de {self.last_name} {self.first_name} est mis à jour ({self.rank}).')
 
     def display_summary(self):
         print(f'''Récapitulatif :
