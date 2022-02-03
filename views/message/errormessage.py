@@ -6,7 +6,7 @@ def display_wrong_choice_message():
 
 
 def display_not_an_integer_message():
-    print('!! Vous n\'avez pas choisi un chiffre. !!')
+    print('!! Vous n\'avez pas choisi un nombre entier. !!')
 
 
 def display_not_an_integer_or_float_number():
@@ -17,8 +17,8 @@ def display_its_blank_message():
     print('!! Vous n\'avez pas saisie de texte. !!')
 
 
-def display_not_in_mode_range():
-    print('!! Vous n\'avez pas saisie un numéro de mode valide. !!')
+def display_not_in_selection_range():
+    print('!! Vous n\'avez pas saisie un numéro de la sélection valide. !!')
 
 
 def display_not_positive_integer():
@@ -33,3 +33,7 @@ def display_not_possible_birthday_date():
 
 def display_this_player_is_already_chosen():
     print('!! Le joueur choisi est déjà dans la liste des joueurs. !!')
+
+
+def display_has_a_number():
+    print('!! Les nombres ne sont pas autorisés. !!')

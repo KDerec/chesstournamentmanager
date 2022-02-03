@@ -15,11 +15,16 @@ class NotPositiveIntegerException(Exception):
     pass
 
 
-class ImpossibleBirthdayDate(Exception):
+class ImpossibleBirthdayDateException(Exception):
     """Manage exception for impossible birthday date input."""
     pass
 
 
-class WrongChosenPlayer(Exception):
+class WrongChosenPlayerException(Exception):
     """Manage exception for already chosen player."""
+    pass
+
+
+class HasNumberException(Exception):
+    """Manage exception for number in a list of string"""
     pass

@@ -1,6 +1,6 @@
 """"Définit un match."""
 
-import random
+
 from views.message import menumessage
 from views.message import errormessage
 

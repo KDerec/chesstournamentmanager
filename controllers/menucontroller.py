@@ -35,8 +35,6 @@ def run():
                         if choice == 1:
                             playercontroller.create_player()
                         elif choice == 2:
-                            print('Afficher suppression de joueur')
-                        elif choice == 3:
                             break
                         else:
                             errormessage.display_wrong_choice_message()

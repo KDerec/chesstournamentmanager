@@ -87,7 +87,7 @@ def prepare_tournament_attributs():
         except errorcontroller.EmptyInputException:
             errormessage.display_its_blank_message()
         except errorcontroller.ModeOutOfRangeException:
-            errormessage.display_not_in_mode_range()
+            errormessage.display_not_in_selection_range()
         except errorcontroller.NotPositiveIntegerException:
             errormessage.display_not_positive_integer()
 
@@ -103,7 +103,8 @@ def prepare_tournament():
         menumessage.display_ready_to_start_tournament()
         start_tournament(tournament)
 
-def select_player_to_add_in_tournament(self):
+
+def select_player_to_add_in_tournament(tournament):
     while True:
         try:
             number_of_player = menumessage.display_how_many_player_will_play()
@@ -114,30 +115,30 @@ def select_player_to_add_in_tournament(self):
     Database.dispay_player_in_database(Database)
     selected_player = []
 
-    while len(self.players_list) != number_of_player:
+    while len(tournament.players_list) != number_of_player:
         try:
             player_number = menumessage.display_wich_player_will_play()
             if player_number in selected_player:
-                raise errorcontroller.WrongChosenPlayer
+                raise errorcontroller.WrongChosenPlayerException
             else:
                 selected_player.append(player_number)
-                self.add_player_in_players_list(
+                tournament.add_player_in_players_list(
                                 Database.player_database[player_number])
 
         except ValueError:
             errormessage.display_not_an_integer_message()
         except IndexError:
             errormessage.display_wrong_choice_message()
-        except errorcontroller.WrongChosenPlayer:
+        except errorcontroller.WrongChosenPlayerException:
             errormessage.display_this_player_is_already_chosen()
     
-    self.dispay_player_in_tournament()
+    tournament.display_player_in_tournament()
 
     choice = menumessage.display_validate_chosen_players()
 
     if choice.upper() != 'O':
-        self.players_list = []
-        select_player_to_add_in_tournament(self)
+        tournament.players_list = []
+        select_player_to_add_in_tournament(tournament)
 
 
 def start_tournament(tournament):
@@ -161,6 +162,7 @@ def start_tournament(tournament):
                 break
     
     prepare_standings(round, tournament)
+
 
 def prepare_standings(round, tournament):
     player_matchmaking, classement = matchmakingcontroller.matchmaking(round, tournament, end = True)

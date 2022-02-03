@@ -1,11 +1,11 @@
 import datetime
 from controllers import errorcontroller
 from views.message import errormessage
-from views.input.playerinput import PlayerInput
+from views.input.playerinput import PlayerInput, PlayerInputAuto
 from models.database import Database
 
 def create_player():
-    player = PlayerInput()
+    player = PlayerInputAuto()
     while True:
         try:
             if player.last_name != False:
@@ -15,6 +15,9 @@ def create_player():
             if player.last_name == '':
                 player.last_name = False
                 raise errorcontroller.EmptyInputException
+            elif has_numbers(player.last_name):
+                player.last_name = False
+                raise errorcontroller.HasNumberException
             
             if player.first_name != False:
                 pass
@@ -23,6 +26,9 @@ def create_player():
             if player.first_name == '':
                 player.first_name = False
                 raise errorcontroller.EmptyInputException
+            elif has_numbers(player.first_name):
+                player.first_name = False
+                raise errorcontroller.HasNumberException
             
             if player.birthday != False:
                 pass
@@ -31,17 +37,17 @@ def create_player():
                 if day <= 0:
                     raise errorcontroller.NotPositiveIntegerException
                 elif day >= 32:
-                    raise errorcontroller.ImpossibleBirthdayDate
+                    raise errorcontroller.ImpossibleBirthdayDateException
                 month = player.input_birthday_month()
                 if month <= 0:
                     raise errorcontroller.NotPositiveIntegerException
                 elif month > 12:
-                    raise errorcontroller.ImpossibleBirthdayDate
+                    raise errorcontroller.ImpossibleBirthdayDateException
                 year = player.input_birthday_year()
                 if year <= 0:
                     raise errorcontroller.NotPositiveIntegerException
                 elif year < 1900 or year > (datetime.date.today().year - 16):
-                    raise errorcontroller.ImpossibleBirthdayDate
+                    raise errorcontroller.ImpossibleBirthdayDateException
                 player.birthday = datetime.date(year, month, day)
 
 
@@ -62,7 +68,7 @@ def create_player():
                 player.rank = False
                 raise errorcontroller.NotPositiveIntegerException
 
-            #player.display_summary()
+            player.display_summary()
 
             validation = player.validate_creation()
 
@@ -72,7 +78,6 @@ def create_player():
                 break
                 
             else:
-                delete_all_attribut(player)
                 break
 
 
@@ -81,18 +86,13 @@ def create_player():
         except errorcontroller.EmptyInputException:
             errormessage.display_its_blank_message()
         except errorcontroller.ModeOutOfRangeException:
-            errormessage.display_not_in_mode_range()
+            errormessage.display_not_in_selection_range()
         except errorcontroller.NotPositiveIntegerException:
             errormessage.display_not_positive_integer()
-        except errorcontroller.ImpossibleBirthdayDate:
+        except errorcontroller.ImpossibleBirthdayDateException:
             errormessage.display_not_possible_birthday_date()
+        except errorcontroller.HasNumberException:
+            errormessage.display_has_a_number()
 
-
-def delete_all_attribut(self):
-    list_to_delete = []
-    for attribut in vars(self):
-        if not attribut.startswith('_'):
-            list_to_delete.append(attribut)
-           
-    for attribut in list_to_delete:
-        delattr(self, attribut)
+def has_numbers(inputString):
+    return any(char.isdigit() for char in inputString)

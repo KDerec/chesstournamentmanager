@@ -30,8 +30,7 @@ def display_player_menu():
     """Display player menu and return a user choice."""
     print('''Menu joueur :
         1. Ajouter un nouveau joueur à la base de donnée ->
-        2. Supprimer un joueur de la base de donnée ->
-        3. Retour <-
+        2. Retour <-
         ''')
 
     return menuinput.input_a_number()
