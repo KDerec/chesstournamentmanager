@@ -48,10 +48,10 @@ def display_report_menu():
 
 
 def display_exit_message():
-      """Display exit message and return a user choice."""
-      print('Tapez la lettre "q" pour confirmez l\'arrêt de l\'application : ')
-
-      return input()
+    """Display exit message and return a user choice."""
+    print('Tapez la lettre "q" pour confirmez l\'arrêt de l\'application : ')
+    
+    return input()
 
 
 def display_how_many_player_will_play():

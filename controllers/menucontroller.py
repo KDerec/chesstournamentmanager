@@ -4,6 +4,7 @@
 # sys.path.append(mydir)
 from controllers import playercontroller
 from controllers import tournamentcontroller
+from controllers import systemcontroller
 from views.message import menumessage
 from views.message import errormessage
 
@@ -57,14 +58,11 @@ def run():
                         errormessage.display_not_an_integer_message()
 
             elif choice == 4:
-                choice = menumessage.display_exit_message()
-                if choice.upper() == 'Q':
-                    running = False
+                systemcontroller.exit_application()
             else:
                 errormessage.display_wrong_choice_message()
         except ValueError:
             errormessage.display_not_an_integer_message()
-    exit()
 
 
 if __name__ == "__main__":
