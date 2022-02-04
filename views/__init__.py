@@ -1,0 +1,1 @@
+"""Define the message and input."""

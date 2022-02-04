@@ -31,18 +31,6 @@ class PlayerInput(Player):
     def input_rank(self):
         self.rank = int(input('Classement du joueur: ')) # random.randint(0, 999)
 
-    def input_choice(self):
-        return input('Oui = o : ')
-
-    def validate_creation(self):
-        print('Validez-vous la création du joueur ? '
-                'Si non, retour menu joueur.')
-        choice = self.input_choice() # 'O'
-        if choice.upper() == 'O':
-            return True
-        else:
-            return False
-
 
 class PlayerInputAuto(Player):
     def __init__(self, last_name=False, first_name=False, birthday=False,
@@ -69,13 +57,3 @@ class PlayerInputAuto(Player):
 
     def input_rank(self):
         self.rank = random.randint(0, 999)
-
-    def input_choice(self):
-        return input('Oui = o : ')
-
-    def validate_creation(self):
-        choice = 'O'
-        if choice.upper() == 'O':
-            return True
-        else:
-            return False

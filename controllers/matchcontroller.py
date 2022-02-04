@@ -1,8 +1,9 @@
 """"Définit un match."""
 
 
-from views.message import menumessage
-from views.message import errormessage
+from views import menuview
+from views import errorview
+from views import matchview
 
 def create_match_results(self):
     """Créer une liste de score."""
@@ -10,10 +11,10 @@ def create_match_results(self):
     results = []
     players = self
     while players != []:
-        menumessage.display_match_notation(i, players)
+        matchview.display_match_to_note(i, players)
         while True:
             try:
-                result_one = menumessage.display_note_the_match(players) # random.choice([0,0.5,1])
+                result_one = matchview.note_the_match(players) # random.choice([0,0.5,1])
                 if result_one == 0:
                     result_two = 1
                     break
@@ -24,9 +25,9 @@ def create_match_results(self):
                     result_two = 0.5
                     break
                 else:
-                    errormessage.display_wrong_choice_message()
+                    errorview.display_wrong_choice_message()
             except ValueError:
-                errormessage.display_not_an_integer_or_float_number()
+                errorview.display_not_an_integer_or_float_number()
         
         results.append(result_one)
         results.append(result_two)

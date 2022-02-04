@@ -28,24 +28,10 @@ class InputTournament(Tournament):
                                     'vas-t-il durer ? : '))
 
     def input_number_of_rounds(self):
-        print('Le nombre de tour par défaut est de 4. '
-                'Souhaitez-vous le modifier ?')
-        choice = self.input_choice()
-        if choice.upper() == 'O':
-            self.number_of_rounds = int(input('Combien de tour ? : '))
-        else:
-            self.number_of_rounds = 4
+        self.number_of_rounds = int(input('Combien de tour ? : '))
 
     def input_description(self):
-        print('Ajouter une description ?')
-        choice = self.input_choice()
-        if choice.upper() == 'O':
-            self.description = input('Votre description : ')
-        else:
-            self.description = ''
-
-    def input_choice(self):
-        return input('Oui = o : ')
+        self.description = input('Votre description : ')
 
     def display_summary(self):
         print(f'''Récapitulatif :
@@ -55,13 +41,3 @@ class InputTournament(Tournament):
         Durée du tournoi: {self.duration} jours
         Nombre de tour: {self.number_of_rounds}
         Description: {self.description}''')
-
-    def validate_creation(self):
-        print('Validez-vous la création du tournoi ? '
-                'Si non, retour menu tournoi.')
-        choice = self.input_choice()
-        if choice.upper() == 'O':
-            return True
-        else:
-            return False
-

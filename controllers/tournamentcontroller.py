@@ -4,11 +4,12 @@ from models.database import Database
 from controllers import errorcontroller
 from controllers import playercontroller
 from controllers import roundcontroller
-from controllers import matchmakingcontroller
 from controllers import matchcontroller
-from views.message import errormessage
-from views.message import menumessage
-from views.input.tournamentinput import InputTournament
+from views import errorview
+from views import tournamentview
+from views import playerview
+from views import roundview
+from views.tournamentinput import InputTournament
 
 
 def prepare_tournament_attributs():
@@ -53,7 +54,11 @@ def prepare_tournament_attributs():
             if tournament.number_of_rounds != False:
                 pass
             else:
-                tournament.input_number_of_rounds()
+                choice = tournamentview.change_the_number_of_rounds()
+                if choice.upper() == 'O':
+                    tournament.input_number_of_rounds()
+                else:
+                    tournament.number_of_rounds = 4
             if tournament.number_of_rounds <= 0:
                 tournament.number_of_rounds = False
                 raise errorcontroller.NotPositiveIntegerException
@@ -61,13 +66,17 @@ def prepare_tournament_attributs():
             if tournament.description != False:
                 pass
             else:
-                tournament.input_description()
+                choice = tournamentview.add_a_description()
+                if choice.upper() == 'O':
+                    tournament.input_description()
+                else:
+                    tournament.description = ''
 
             tournament.display_summary()
 
-            validation = tournament.validate_creation()
+            choice = tournamentview.validate_creation()
 
-            if validation:
+            if choice.upper() == 'O':
                 if tournament.duration > 1:
                     first_day = datetime.date.today()
                     last_day = (first_day + timedelta(days=(
@@ -83,13 +92,13 @@ def prepare_tournament_attributs():
 
 
         except ValueError:
-            errormessage.display_not_an_integer_message()
+            errorview.display_not_an_integer_message()
         except errorcontroller.EmptyInputException:
-            errormessage.display_its_blank_message()
+            errorview.display_its_blank_message()
         except errorcontroller.ModeOutOfRangeException:
-            errormessage.display_not_in_selection_range()
+            errorview.display_not_in_selection_range()
         except errorcontroller.NotPositiveIntegerException:
-            errormessage.display_not_positive_integer()
+            errorview.display_not_positive_integer()
 
 
 def prepare_tournament():
@@ -100,32 +109,32 @@ def prepare_tournament():
             playercontroller.create_player()
         
         select_player_to_add_in_tournament(tournament)
-        menumessage.display_ready_to_start_tournament()
+        tournamentview.display_start_tournament()
         start_tournament(tournament)
 
 
 def select_player_to_add_in_tournament(tournament):
     while True:
         try:
-            number_of_player = menumessage.display_how_many_player_will_play()
+            number_of_player = tournamentview.how_many_player_will_play()
             if number_of_player % 2 != 0:
                 raise errorcontroller.NotAnEvenNumberException
             if number_of_player > len(Database.player_database):
                 raise errorcontroller.NotEnoughPlayerInDatabaseException
             break
         except ValueError:
-            errormessage.display_not_an_integer_message()
+            errorview.display_not_an_integer_message()
         except errorcontroller.NotAnEvenNumberException:
-            errormessage.display_not_an_even_number()
+            errorview.display_not_an_even_number()
         except errorcontroller.NotEnoughPlayerInDatabaseException:
-            errormessage.display_you_selected_too_much_player()
+            errorview.display_you_selected_too_much_player()
 
     Database.dispay_player_in_database(Database)
     selected_player = []
 
     while len(tournament.players_list) != number_of_player:
         try:
-            player_number = menumessage.display_wich_player_will_play()
+            player_number = tournamentview.wich_player_will_play()
             if player_number in selected_player:
                 raise errorcontroller.WrongChosenPlayerException
             else:
@@ -134,15 +143,15 @@ def select_player_to_add_in_tournament(tournament):
                                 Database.player_database[player_number])
 
         except ValueError:
-            errormessage.display_not_an_integer_message()
+            errorview.display_not_an_integer_message()
         except IndexError:
-            errormessage.display_wrong_choice_message()
+            errorview.display_wrong_choice_message()
         except errorcontroller.WrongChosenPlayerException:
-            errormessage.display_this_player_is_already_chosen()
+            errorview.display_this_player_is_already_chosen()
     
     tournament.display_player_in_tournament()
 
-    choice = menumessage.display_validate_chosen_players()
+    choice = tournamentview.validate_chosen_players()
 
     if choice.upper() != 'O':
         tournament.players_list = []
@@ -153,16 +162,16 @@ def start_tournament(tournament):
     for i in range(tournament.number_of_rounds):
         propose_to_change_player_rank(tournament)
         while True:
-            choice = menumessage.display_start_round(i)
+            choice = roundview.start_round(i)
             if choice.upper() == 'O':
                 round = roundcontroller.create_round(i)
                 round.display_round_name()
-                players_matchmaking = matchmakingcontroller.matchmaking(round, tournament)
+                players_matchmaking = roundcontroller.play_round(round, tournament)
                 break
 
         while True:
             propose_to_change_player_rank(tournament)
-            choice = menumessage.display_end_round(i)
+            choice = roundview.end_round(i)
             if choice.upper() == 'O':
                 roundcontroller.create_ending_round_date(round)
                 results = matchcontroller.create_match_results(players_matchmaking)
@@ -176,14 +185,14 @@ def start_tournament(tournament):
 
 
 def prepare_standings(round, tournament):
-    player_matchmaking, classement = matchmakingcontroller.matchmaking(round, tournament, end = True)
+    player_matchmaking, classement = roundcontroller.play_round(round, tournament, end = True)
     print('\nLes résultats du tournoi sont : ')
     for i in range(len(classement)):
-        menumessage.display_standings(player_matchmaking, classement, i)
+        tournamentview.display_standings(player_matchmaking, classement, i)
 
 
 def propose_to_change_player_rank(tournament):
-    choice = menumessage.display_change_player_rank()
+    choice = playerview.change_player_rank()
     if choice.upper() == 'O':
         select_player_to_change_his_rank(tournament)
 
@@ -191,14 +200,14 @@ def select_player_to_change_his_rank(tournament):
     tournament.display_player_in_tournament()
     while True:
         try:
-            selected_player = menumessage.display_select_a_player_to_change_his_rank()
-            new_rank = menumessage.display_choice_new_rank()
+            selected_player = playerview.select_a_player_to_change_his_rank()
+            new_rank = playerview.choice_new_rank()
             if new_rank < 0:
                 raise errorcontroller.NotPositiveIntegerException
             tournament.players_list[selected_player].update_player_rank(new_rank)
             break
         except ValueError:
-            errormessage.display_not_an_integer_message()
+            errorview.display_not_an_integer_message()
         except errorcontroller.NotPositiveIntegerException:
-            errormessage.display_not_positive_integer()
+            errorview.display_not_positive_integer()
     

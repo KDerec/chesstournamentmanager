@@ -1,7 +1,8 @@
 import datetime
 from controllers import errorcontroller
-from views.message import errormessage
-from views.input.playerinput import PlayerInput, PlayerInputAuto
+from views import errorview
+from views import playerview
+from views.playerinput import PlayerInput, PlayerInputAuto
 from models.database import Database
 
 def create_player():
@@ -70,9 +71,9 @@ def create_player():
 
             player.display_summary()
 
-            validation = player.validate_creation()
+            choice = playerview.validate_creation()
 
-            if validation:
+            if choice.upper() == 'O':
                 database = Database()
                 database.add_player_in_database(player)
                 break
@@ -82,17 +83,17 @@ def create_player():
 
 
         except ValueError:
-            errormessage.display_not_an_integer_message()
+            errorview.display_not_an_integer_message()
         except errorcontroller.EmptyInputException:
-            errormessage.display_its_blank_message()
+            errorview.display_its_blank_message()
         except errorcontroller.ModeOutOfRangeException:
-            errormessage.display_not_in_selection_range()
+            errorview.display_not_in_selection_range()
         except errorcontroller.NotPositiveIntegerException:
-            errormessage.display_not_positive_integer()
+            errorview.display_not_positive_integer()
         except errorcontroller.ImpossibleBirthdayDateException:
-            errormessage.display_not_possible_birthday_date()
+            errorview.display_not_possible_birthday_date()
         except errorcontroller.HasNumberException:
-            errormessage.display_has_a_number()
+            errorview.display_has_a_number()
 
 def has_numbers(inputString):
     return any(char.isdigit() for char in inputString)

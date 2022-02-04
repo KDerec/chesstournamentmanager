@@ -1,7 +1,7 @@
-from views.message import menumessage
+from views import systemview
 
 
 def exit_application():
-    choice = menumessage.display_exit_message()
+    choice = systemview.display_exit_message()
     if choice.upper() == 'Q':
         exit()
