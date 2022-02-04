@@ -108,9 +108,17 @@ def select_player_to_add_in_tournament(tournament):
     while True:
         try:
             number_of_player = menumessage.display_how_many_player_will_play()
+            if number_of_player % 2 != 0:
+                raise errorcontroller.NotAnEvenNumberException
+            if number_of_player > len(Database.player_database):
+                raise errorcontroller.NotEnoughPlayerInDatabaseException
             break
         except ValueError:
             errormessage.display_not_an_integer_message()
+        except errorcontroller.NotAnEvenNumberException:
+            errormessage.display_not_an_even_number()
+        except errorcontroller.NotEnoughPlayerInDatabaseException:
+            errormessage.display_you_selected_too_much_player()
 
     Database.dispay_player_in_database(Database)
     selected_player = []

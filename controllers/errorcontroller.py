@@ -26,5 +26,15 @@ class WrongChosenPlayerException(Exception):
 
 
 class HasNumberException(Exception):
-    """Manage exception for number in a list of string"""
+    """Manage exception for number in a list of string."""
+    pass
+
+
+class NotAnEvenNumberException(Exception):
+    """Manage exception for not even number."""
+    pass
+
+
+class NotEnoughPlayerInDatabaseException(Exception):
+    """Manage exception for bigger number of player selected as player in database."""
     pass

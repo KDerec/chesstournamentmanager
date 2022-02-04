@@ -55,7 +55,7 @@ def display_exit_message():
 
 
 def display_how_many_player_will_play():
-    print('Combien de joueur vont participer au tournoi ? : ')
+    print('Combien de joueur vont participer au tournoi ? (inscrire un nombre pair): ')
 
     return menuinput.input_a_number()
 

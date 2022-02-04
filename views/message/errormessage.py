@@ -37,3 +37,11 @@ def display_this_player_is_already_chosen():
 
 def display_has_a_number():
     print('!! Les nombres ne sont pas autorisés. !!')
+
+
+def display_not_an_even_number():
+    print('!! Vous n\'avez pas saisie un nombre pair. !!')
+
+
+def display_you_selected_too_much_player():
+    print('!! Vous avez saisie plus de joueur que de joueur dans la base de donnée. !!')
