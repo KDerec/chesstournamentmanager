@@ -5,6 +5,7 @@ from controllers import errorcontroller
 from controllers import playercontroller
 from controllers import roundcontroller
 from controllers import matchcontroller
+from controllers import systemcontroller
 from views import errorview
 from views import tournamentview
 from views import playerview
@@ -55,7 +56,7 @@ def prepare_tournament_attributs():
                 pass
             else:
                 choice = tournamentview.change_the_number_of_rounds()
-                if choice.upper() == 'O':
+                if systemcontroller.choice_verification(choice):
                     tournament.input_number_of_rounds()
                 else:
                     tournament.number_of_rounds = 4
@@ -67,7 +68,7 @@ def prepare_tournament_attributs():
                 pass
             else:
                 choice = tournamentview.add_a_description()
-                if choice.upper() == 'O':
+                if systemcontroller.choice_verification(choice):
                     tournament.input_description()
                 else:
                     tournament.description = ''
@@ -76,7 +77,7 @@ def prepare_tournament_attributs():
 
             choice = tournamentview.validate_creation()
 
-            if choice.upper() == 'O':
+            if systemcontroller.choice_verification(choice):
                 if tournament.duration > 1:
                     first_day = datetime.date.today()
                     last_day = (first_day + timedelta(days=(
@@ -153,7 +154,10 @@ def select_player_to_add_in_tournament(tournament):
 
     choice = tournamentview.validate_chosen_players()
 
-    if choice.upper() != 'O':
+    if systemcontroller.choice_verification(choice):
+        pass
+        
+    else:    
         tournament.players_list = []
         select_player_to_add_in_tournament(tournament)
 
@@ -163,7 +167,7 @@ def start_tournament(tournament):
         propose_to_change_player_rank(tournament)
         while True:
             choice = roundview.start_round(i)
-            if choice.upper() == 'O':
+            if systemcontroller.choice_verification(choice):
                 round = roundcontroller.create_round(i)
                 round.display_round_name()
                 players_matchmaking = roundcontroller.play_round(round, tournament)
@@ -172,7 +176,7 @@ def start_tournament(tournament):
         while True:
             propose_to_change_player_rank(tournament)
             choice = roundview.end_round(i)
-            if choice.upper() == 'O':
+            if systemcontroller.choice_verification(choice):
                 roundcontroller.create_ending_round_date(round)
                 results = matchcontroller.create_match_results(players_matchmaking)
                 match_list = matchcontroller.create_match_list(results, players_matchmaking)
@@ -193,7 +197,7 @@ def prepare_standings(round, tournament):
 
 def propose_to_change_player_rank(tournament):
     choice = playerview.change_player_rank()
-    if choice.upper() == 'O':
+    if systemcontroller.choice_verification(choice):
         select_player_to_change_his_rank(tournament)
 
 def select_player_to_change_his_rank(tournament):

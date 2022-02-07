@@ -1,5 +1,6 @@
 import datetime
 from controllers import errorcontroller
+from controllers import systemcontroller
 from views import errorview
 from views import playerview
 from views.playerinput import PlayerInput, PlayerInputAuto
@@ -73,7 +74,7 @@ def create_player():
 
             choice = playerview.validate_creation()
 
-            if choice.upper() == 'O':
+            if systemcontroller.choice_verification(choice):
                 database = Database()
                 database.add_player_in_database(player)
                 break
