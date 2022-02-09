@@ -57,6 +57,14 @@ def display_start_tournament():
     print('Le tournoi démarre !')
 
 
+def return_in_tournament():
+    """Display return in tournament message and return user choice."""
+    
+    print('Revenir au tournoi ?')
+
+    return userinput.input_choice()
+
+
 def display_standings(player_matchmaking, classement, i):
     """Display standings of the tournament."""
 

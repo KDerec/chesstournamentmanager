@@ -227,7 +227,12 @@ def select_player_to_change_his_rank(tournament):
             tournament.players_list[selected_player].update_player_rank(new_rank)
             break
         except ValueError:
+            choice = tournamentview.return_in_tournament()
+            if systemcontroller.choice_verification(choice):
+                break
             errorview.display_not_an_integer_message()
+        except IndexError:
+            errorview.display_not_in_selection_range()
         except errorcontroller.NotPositiveIntegerException:
             errorview.display_not_positive_integer()
     
