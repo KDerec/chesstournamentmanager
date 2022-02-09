@@ -1,3 +1,6 @@
+"""Manage the running of a tournament."""
+
+
 import datetime
 from datetime import timedelta
 from models.database import Database
@@ -14,7 +17,8 @@ from views.tournamentinput import InputTournament
 
 
 def prepare_tournament_attributs():
-    """Préparation des attributs du tournoi."""
+    """Input tournament attributs and return tournament object."""
+
     tournament = InputTournament()
     running = True
     while running:
@@ -102,7 +106,9 @@ def prepare_tournament_attributs():
             errorview.display_not_positive_integer()
 
 
-def prepare_tournament():
+def call_players_selection_and_start_tournament():
+    """Select player to add in tournament and call start_tournament function."""
+
     tournament = prepare_tournament_attributs()
     if tournament:
         # Ceci sera réalisé par l'utilisateur.
@@ -115,6 +121,8 @@ def prepare_tournament():
 
 
 def select_player_to_add_in_tournament(tournament):
+    """Select how many players will play and add players in tournament object."""
+
     while True:
         try:
             number_of_player = tournamentview.how_many_player_will_play()
@@ -163,6 +171,8 @@ def select_player_to_add_in_tournament(tournament):
 
 
 def start_tournament(tournament):
+    """Run tournament until each rounds are played."""
+
     for i in range(tournament.number_of_rounds):
         propose_to_change_player_rank(tournament)
         while True:
@@ -189,6 +199,8 @@ def start_tournament(tournament):
 
 
 def prepare_standings(round, tournament):
+    """Prepare standings for the end of the tournament."""
+
     player_matchmaking, classement = roundcontroller.play_round(round, tournament, end = True)
     print('\nLes résultats du tournoi sont : ')
     for i in range(len(classement)):
@@ -196,11 +208,15 @@ def prepare_standings(round, tournament):
 
 
 def propose_to_change_player_rank(tournament):
+    """Ask for player rank change."""
+
     choice = playerview.change_player_rank()
     if systemcontroller.choice_verification(choice):
         select_player_to_change_his_rank(tournament)
 
 def select_player_to_change_his_rank(tournament):
+    """Select a player in tournament and input new rank."""
+    
     tournament.display_player_in_tournament()
     while True:
         try:

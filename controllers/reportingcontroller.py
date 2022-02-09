@@ -1,4 +1,4 @@
-"""Définit un rapport."""
+"""Define a reporting."""
 
 
 def display_reporting():

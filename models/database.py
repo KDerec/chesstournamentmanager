@@ -1,3 +1,4 @@
+"""Temporaly fake database waiting TinyDB."""
 
 
 class Database:

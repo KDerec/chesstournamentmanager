@@ -1,3 +1,4 @@
+"""Defines exceptions."""
 
 
 class EmptyInputException(Exception):

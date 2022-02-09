@@ -1,1 +1,1 @@
-"""Define the message and input."""
+"""Define the views."""

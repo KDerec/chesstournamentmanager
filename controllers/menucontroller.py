@@ -1,7 +1,6 @@
-# import os
-# import sys
-# mydir = os.getcwd()
-# sys.path.append(mydir)
+"""Where the user navigate between each menus."""
+
+
 from controllers import playercontroller
 from controllers import tournamentcontroller
 from controllers import systemcontroller
@@ -10,6 +9,8 @@ from views import errorview
 
 
 def run():
+    """Navigate in menus."""
+    
     running = True
     while running:
         try:
@@ -20,7 +21,7 @@ def run():
                     try:
                         choice = menuview.display_tournament_menu()
                         if choice == 1:
-                            tournamentcontroller.prepare_tournament()
+                            tournamentcontroller.call_players_selection_and_start_tournament()
 
                         elif choice == 2:
                             break
@@ -63,7 +64,3 @@ def run():
                 errorview.display_wrong_choice_message()
         except ValueError:
             errorview.display_not_an_integer_message()
-
-
-if __name__ == "__main__":
-    run()

@@ -1,3 +1,5 @@
+"""Manage creation of player object."""
+
 import datetime
 from controllers import errorcontroller
 from controllers import systemcontroller
@@ -7,6 +9,9 @@ from views.playerinput import PlayerInput, PlayerInputAuto
 from models.database import Database
 
 def create_player():
+    """Input player attributs and return player object."""
+
+    # A remplacer par PlayerInput pour une sélection manuelle des attributs.
     player = PlayerInputAuto()
     while True:
         try:
@@ -50,7 +55,7 @@ def create_player():
                     raise errorcontroller.NotPositiveIntegerException
                 elif year < 1900 or year > (datetime.date.today().year - 16):
                     raise errorcontroller.ImpossibleBirthdayDateException
-                player.birthday = datetime.date(year, month, day)
+                player.birthday = str(datetime.date(year, month, day))
 
 
             if player.sexe != False:
@@ -96,5 +101,8 @@ def create_player():
         except errorcontroller.HasNumberException:
             errorview.display_has_a_number()
 
+
 def has_numbers(inputString):
+    """Check if there is a number in a string list and return True or False."""
+    
     return any(char.isdigit() for char in inputString)

@@ -1,12 +1,13 @@
-""""Définit un match."""
+""""Define a match."""
 
 
-from views import menuview
 from views import errorview
 from views import matchview
 
+
 def create_match_results(self):
-    """Créer une liste de score."""
+    """Input score and return a results list."""
+
     i = 1
     results = []
     players = self
@@ -38,7 +39,8 @@ def create_match_results(self):
 
 
 def create_match_list(results, players):
-    """Créer une liste de matchs contenant des joueurs et des scores."""
+    """Match players with them results and return a match list."""
+
     match_list = []
     while results != []:
         l1 = [players[0], results[0]]

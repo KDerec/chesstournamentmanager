@@ -1,9 +1,12 @@
+"""Manage the running of a round."""
+
 import time
 from models.round import Round
 from views import roundview
 
 def create_round(i):
-    '''Préparation des attributs d'un tour.'''
+    '''Create round attributs and return a round object.'''
+
     name = f'Round {i+1}'
     beginning_date = '{}'.format(time.strftime("%Y-%m-%d_%Hh"))
     ending_date = ''
@@ -11,17 +14,22 @@ def create_round(i):
 
     return round
 
+
 def create_ending_round_date(self):
+    """Create ending date and update ending date round object attribut."""
+
     self.ending_date = '{}'.format(time.strftime("%Y-%m-%d_%Hh"))
 
 
 def split_list(self):
-    '''Divise une liste en deux.'''
+    '''Divide a list by two and return two lists.'''
+
     half = len(self) // 2
     return self[:half], self[half:]
 
+
 def play_round(round, tournament, end=False):
-    """Génére le jumelage de joueur."""
+    """Check the round number and call matchmaking functions according."""
 
     if round.name == 'Round 1':
         return matchmaking_for_first_round(tournament)
@@ -31,6 +39,8 @@ def play_round(round, tournament, end=False):
 
 
 def matchmaking_for_first_round(tournament):
+    """Create matchmaking for first round and return a sorted player list."""
+
     players_matchmaking = []
     sorted_list = sorted(tournament.players_list,
                                 key=lambda player: player.rank,
@@ -46,6 +56,8 @@ def matchmaking_for_first_round(tournament):
 
 
 def matchmaking_for_others_round(tournament, end):
+    """Create matchmaking and return a sorted player list."""
+
     players_matchmaking = []
     players_and_scores = {}
 
@@ -99,6 +111,8 @@ def matchmaking_for_others_round(tournament, end):
 
 
 def check_if_players_already_played_together(tournament, players_matchmaking):
+    """Arrange matchmaking player list and return player list according."""
+
     for i in range(len(tournament.rounds_list)):
         for j in range(len(tournament.rounds_list[i].match_list)):
             player_one = tournament.rounds_list[i].match_list[j][0][0]
@@ -112,7 +126,10 @@ def check_if_players_already_played_together(tournament, players_matchmaking):
     
     return players_matchmaking
 
+
 def prepare_versus_message(players_matchmaking, players_and_scores):
+    """Prepare arguments to display versus message."""
+
     p1 = players_matchmaking
     d1 = players_and_scores
     for i in range(len(p1) // 2):
