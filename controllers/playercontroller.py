@@ -1,6 +1,7 @@
 """Manage creation of player object."""
 
 import datetime
+from models.encoder import encode_class
 from controllers import errorcontroller
 from controllers import systemcontroller
 from views import errorview
@@ -82,6 +83,7 @@ def create_player():
             if systemcontroller.choice_verification(choice):
                 database = Database()
                 database.add_player_in_database(player)
+                encode_class(player)
                 break
                 
             else:

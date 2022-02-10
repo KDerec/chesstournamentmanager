@@ -4,6 +4,7 @@
 import datetime
 from datetime import timedelta
 from models.database import Database
+from models.encoder import encode_class
 from controllers import errorcontroller
 from controllers import playercontroller
 from controllers import roundcontroller
@@ -196,6 +197,7 @@ def start_tournament(tournament):
     
     propose_to_change_player_rank(tournament)
     prepare_standings(round, tournament)
+    encode_class(tournament)
 
 
 def prepare_standings(round, tournament):
