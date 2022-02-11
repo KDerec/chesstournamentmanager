@@ -1,13 +1,18 @@
-from json import JSONEncoder
+import json
+
+def encode_class_to_dict(self):
+    """Take a class in argument and return a dict."""
+
+    class_in_str = json.JSONEncoder(default=lambda o: o.__dict__).encode(self)
+    class_in_dict = json.loads(class_in_str)
+
+    return class_in_dict
 
 
-class MyEncoder(JSONEncoder):
-    def default(self, o):
-        return o.__dict__
+def encode_json_to_dict(self):
+    """Take a json document in argument and return a dict."""
 
-    def encode_class(_class):
-        return MyEncoder().encode(_class)
-
-
-def encode_class(self):
-    print(MyEncoder.encode_class(self))
+    class_in_str = json.dumps(self)
+    class_in_dict = json.loads(class_in_str)
+    
+    return class_in_dict

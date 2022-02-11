@@ -4,9 +4,9 @@
 import datetime
 from datetime import timedelta
 from models.database import Database
-from models.encoder import encode_class
+from models.encoder import encode_json_to_dict
+from models.player import DictToPlayer
 from controllers import errorcontroller
-from controllers import playercontroller
 from controllers import roundcontroller
 from controllers import matchcontroller
 from controllers import systemcontroller
@@ -112,10 +112,6 @@ def call_players_selection_and_start_tournament():
 
     tournament = prepare_tournament_attributs()
     if tournament:
-        # Ceci sera réalisé par l'utilisateur.
-        for i in range(12):
-            playercontroller.create_player()
-        
         select_player_to_add_in_tournament(tournament)
         tournamentview.display_start_tournament()
         start_tournament(tournament)
@@ -129,7 +125,7 @@ def select_player_to_add_in_tournament(tournament):
             number_of_player = tournamentview.how_many_player_will_play()
             if number_of_player % 2 != 0:
                 raise errorcontroller.NotAnEvenNumberException
-            if number_of_player > len(Database.player_database):
+            if number_of_player > len(Database().player_table):
                 raise errorcontroller.NotEnoughPlayerInDatabaseException
             break
         except ValueError:
@@ -149,8 +145,10 @@ def select_player_to_add_in_tournament(tournament):
                 raise errorcontroller.WrongChosenPlayerException
             else:
                 selected_player.append(player_number)
-                tournament.add_player_in_players_list(
-                                Database.player_database[player_number])
+                player = Database().player_table.get(doc_id=player_number)
+                player = encode_json_to_dict(player)
+                player = DictToPlayer(player)
+                tournament.add_player_in_players_list(player)
 
         except ValueError:
             errorview.display_not_an_integer_message()
@@ -197,7 +195,6 @@ def start_tournament(tournament):
     
     propose_to_change_player_rank(tournament)
     prepare_standings(round, tournament)
-    encode_class(tournament)
 
 
 def prepare_standings(round, tournament):

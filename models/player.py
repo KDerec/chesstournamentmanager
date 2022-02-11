@@ -35,3 +35,10 @@ class Player:
         
         print(f'{self.last_name} {self.first_name} est ajouté.\n')
 
+
+class DictToPlayer(Player):
+    def __init__(self, dict, last_name=False, first_name=False, birthday=False,
+                sexe=False, rank=False):
+        super().__init__(last_name, first_name, birthday, sexe, rank)
+        for key in dict:
+            setattr(self, key, dict[key])

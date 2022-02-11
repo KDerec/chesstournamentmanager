@@ -1,12 +1,13 @@
 """Manage creation of player object."""
 
 import datetime
-from models.encoder import encode_class
+from controllers import databasecontroller
 from controllers import errorcontroller
 from controllers import systemcontroller
 from views import errorview
 from views import playerview
 from views.playerinput import PlayerInput
+
 
 def create_player():
     """Input player attributs and return player object."""
@@ -79,9 +80,7 @@ def create_player():
             choice = playerview.validate_creation()
 
             if systemcontroller.choice_verification(choice):
-                database = Database()
-                database.add_player_in_database(player)
-                encode_class(player)
+                databasecontroller.insert_player_in_db(player)
                 break
                 
             else:
