@@ -10,6 +10,7 @@ from controllers import errorcontroller
 from controllers import roundcontroller
 from controllers import matchcontroller
 from controllers import systemcontroller
+from controllers import databasecontroller
 from views import errorview
 from views import tournamentview
 from views import playerview
@@ -195,6 +196,8 @@ def start_tournament(tournament):
     
     propose_to_change_player_rank(tournament)
     prepare_standings(round, tournament)
+    delattr(tournament, 'duration')
+    databasecontroller.insert_tournament_in_db(tournament)
 
 
 def prepare_standings(round, tournament):
@@ -212,6 +215,7 @@ def propose_to_change_player_rank(tournament):
     choice = playerview.change_player_rank()
     if systemcontroller.choice_verification(choice):
         select_player_to_change_his_rank(tournament)
+
 
 def select_player_to_change_his_rank(tournament):
     """Select a player in tournament and input new rank."""
