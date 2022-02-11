@@ -6,8 +6,8 @@ class EmptyInputException(Exception):
     pass
 
 
-class ModeOutOfRangeException(Exception):
-    """Manage exception for out of range mode input."""
+class OutOfRangeException(Exception):
+    """Manage exception for out of range input."""
     pass
 
 

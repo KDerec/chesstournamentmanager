@@ -48,7 +48,7 @@ def prepare_tournament_attributs():
             if selected_mode in range(len(tournament.mode)):
                 tournament.time_controller = tournament.mode[selected_mode]
             else:
-                raise errorcontroller.ModeOutOfRangeException
+                raise errorcontroller.OutOfRangeException
             
             if tournament.duration != False:
                 pass
@@ -102,7 +102,7 @@ def prepare_tournament_attributs():
             errorview.display_not_an_integer_message()
         except errorcontroller.EmptyInputException:
             errorview.display_its_blank_message()
-        except errorcontroller.ModeOutOfRangeException:
+        except errorcontroller.OutOfRangeException:
             errorview.display_not_in_selection_range()
         except errorcontroller.NotPositiveIntegerException:
             errorview.display_not_positive_integer()
@@ -144,6 +144,8 @@ def select_player_to_add_in_tournament(tournament):
             player_number = tournamentview.wich_player_will_play()
             if player_number in selected_player:
                 raise errorcontroller.WrongChosenPlayerException
+            if player_number > len(Database().player_table) or player_number <= 0:
+                raise errorcontroller.OutOfRangeException
             else:
                 selected_player.append(player_number)
                 player = Database().player_table.get(doc_id=player_number)
@@ -157,6 +159,8 @@ def select_player_to_add_in_tournament(tournament):
             errorview.display_wrong_choice_message()
         except errorcontroller.WrongChosenPlayerException:
             errorview.display_this_player_is_already_chosen()
+        except errorcontroller.OutOfRangeException:
+            errorview.display_not_in_selection_range()
     
     tournament.display_player_in_tournament()
 

@@ -65,7 +65,7 @@ def create_player():
             if selected_sexe in range(len(player.possible_sexe)):
                 player.sexe = player.possible_sexe[selected_sexe]
             else:
-                raise errorcontroller.ModeOutOfRangeException
+                raise errorcontroller.OutOfRangeException
             
             if player.rank != False:
                 pass
@@ -91,7 +91,7 @@ def create_player():
             errorview.display_not_an_integer_message()
         except errorcontroller.EmptyInputException:
             errorview.display_its_blank_message()
-        except errorcontroller.ModeOutOfRangeException:
+        except errorcontroller.OutOfRangeException:
             errorview.display_not_in_selection_range()
         except errorcontroller.NotPositiveIntegerException:
             errorview.display_not_positive_integer()
