@@ -6,14 +6,12 @@ from controllers import errorcontroller
 from controllers import systemcontroller
 from views import errorview
 from views import playerview
-from views.playerinput import PlayerInput, PlayerInputAuto
-from models.database import Database
+from views.playerinput import PlayerInput
 
 def create_player():
     """Input player attributs and return player object."""
 
-    # A remplacer par PlayerInput pour une sélection manuelle des attributs.
-    player = PlayerInputAuto()
+    player = PlayerInput()
     while True:
         try:
             if player.last_name != False:
