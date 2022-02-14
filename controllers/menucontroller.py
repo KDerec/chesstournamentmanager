@@ -4,6 +4,7 @@
 from controllers import playercontroller
 from controllers import tournamentcontroller
 from controllers import systemcontroller
+from controllers import reportingcontroller
 from views import menuview
 from views import errorview
 
@@ -48,7 +49,7 @@ def run():
                     try:
                         choice = menuview.display_report_menu()
                         if choice == 1:
-                            print('Affiche rapport.')
+                            reportingcontroller.display_reporting()
                         elif choice == 2:
                             print('Export rapport.')
                         elif choice == 3:
