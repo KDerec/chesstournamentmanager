@@ -231,6 +231,7 @@ def select_player_to_change_his_rank(tournament):
             new_rank = playerview.choice_new_rank()
             if new_rank < 0:
                 raise errorcontroller.NotPositiveIntegerException
+            Database().update_player_rank_in_table(tournament.players_list[selected_player], new_rank)
             tournament.players_list[selected_player].update_player_rank(new_rank)
             break
         except ValueError:
