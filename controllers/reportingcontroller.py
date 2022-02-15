@@ -35,10 +35,7 @@ def display_reporting():
             elif choice == 2:
                 while True:
                     try:
-                        Database().display_tournament_in_database()
-                        tournament_number = reportingview.select_tournament_number()
-                        if tournament_number > len(Database().tournament_table) or tournament_number <= 0:
-                            raise errorcontroller.OutOfRangeException
+                        tournament_number = choose_a_tournament()
                         tournament_player_list = Database().tournament_table.get(doc_id=tournament_number)['players_list']
                         choice = reportingview.wich_order()
                         if choice == 1:
@@ -55,15 +52,20 @@ def display_reporting():
                             errorview.display_wrong_choice_message()
                     except ValueError:
                         errorview.display_not_an_integer_message()
-                    except errorcontroller.OutOfRangeException:
-                        errorview.display_not_in_selection_range()
 
             elif choice == 3:
                 tournaments_list = prepare_tournament_display()
                 reportingview.display_all_tournament_report(tournaments_list)
 
             elif choice == 4:
-                reportingview.display_all_rounds_tournament_report()
+                while True:
+                    try:
+                        tournament_number = choose_a_tournament()
+                        tournament_rounds_list = Database().tournament_table.get(doc_id=tournament_number)['rounds_list']
+                        reportingview.display_all_rounds_tournament_report(tournament_rounds_list)
+                        break
+                    except ValueError:
+                        errorview.display_not_an_integer_message()
 
             elif choice == 5:
                 reportingview.display_all_matchs_tournament_report()
@@ -105,3 +107,16 @@ def prepare_tournament_display():
         tournaments_list.append(tournament)
 
     return tournaments_list
+
+
+def choose_a_tournament():
+    while True:
+        try:
+            Database().display_tournament_in_database()
+            tournament_number = reportingview.select_tournament_number()
+            if tournament_number > len(Database().tournament_table) or tournament_number <= 0:
+                raise errorcontroller.OutOfRangeException
+            return tournament_number
+
+        except errorcontroller.OutOfRangeException:
+            errorview.display_not_in_selection_range()

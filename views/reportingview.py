@@ -14,24 +14,14 @@ def display_all_tournament_report(tournament_list):
         print(encode_json_to_str(tournament))
 
 
-class DisplayTournamentPlayersReport:
-
-    def __init__():
-        pass
-
-    def by_alphabetical_order():
-        pass
-
-    def by_rank_order():
-        pass
+def display_all_rounds_tournament_report(tournament_rounds_list):
+    for round in tournament_rounds_list:
+        print(encode_json_to_str(round))
 
 
-def display_all_rounds_tournament_report(tournament):
-    pass
-
-
-def display_all_matchs_tournament_report(tournament):
-    pass
+def display_all_matchs_tournament_report(tournament_matchs_list):
+    for match in tournament_matchs_list:
+        print(encode_json_to_str(match))
 
 
 def choice_report_to_display():
