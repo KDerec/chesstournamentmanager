@@ -57,3 +57,5 @@ def wich_order():
 
 def select_tournament_number():
     print('Sélectionnez un numéro de tournoi : ')
+
+    return userinput.input_a_number()

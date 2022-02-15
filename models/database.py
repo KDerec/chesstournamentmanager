@@ -15,9 +15,13 @@ class Database:
     def __init__(self):
         pass
 
-    def dispay_player_in_database(self):
+    def display_player_in_database(self):
         for player in self.player_table:
             print(player.doc_id, player['last_name'], player['first_name'], player['rank'])
+
+    def display_tournament_in_database(self):
+        for tournament in self.tournament_table:
+            print(tournament.doc_id, tournament['name'], 'à', tournament['location'])
     
     def insert_player_in_table(self, player):     
         self.player_table.insert(player)

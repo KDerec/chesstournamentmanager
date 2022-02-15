@@ -136,7 +136,7 @@ def select_player_to_add_in_tournament(tournament):
         except errorcontroller.NotEnoughPlayerInDatabaseException:
             errorview.display_you_selected_too_much_player()
 
-    Database().dispay_player_in_database()
+    Database().display_player_in_database()
     selected_player = []
 
     while len(tournament.players_list) != number_of_player:

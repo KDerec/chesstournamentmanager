@@ -3,6 +3,7 @@
 
 from models.database import Database
 from models.encoder import encode_json_to_dict
+from controllers import errorcontroller
 from views import reportingview
 from views import errorview
 
@@ -17,12 +18,12 @@ def display_reporting():
                     try:
                         choice = reportingview.wich_order()
                         if choice == 1:
-                            player_list = sort_players_list_by_alphabetical_order()
-                            reportingview.display_players_report(player_list)
+                            players_list = sort_players_list_by_alphabetical_order(Database().player_table)
+                            reportingview.display_players_report(players_list)
                             break
                         elif choice == 2:
-                            player_list = sort_players_list_by_rank_order()
-                            reportingview.display_players_report(player_list)
+                            players_list = sort_players_list_by_rank_order(Database().player_table)
+                            reportingview.display_players_report(players_list)
                             break
                         elif choice == 3:
                             break
@@ -34,18 +35,28 @@ def display_reporting():
             elif choice == 2:
                 while True:
                     try:
-                        report = reportingview.DisplayTournamentPlayersReport()
+                        Database().display_tournament_in_database()
+                        tournament_number = reportingview.select_tournament_number()
+                        if tournament_number > len(Database().tournament_table) or tournament_number <= 0:
+                            raise errorcontroller.OutOfRangeException
+                        tournament_player_list = Database().tournament_table.get(doc_id=tournament_number)['players_list']
                         choice = reportingview.wich_order()
                         if choice == 1:
-                            report.by_alphabetical_order()
+                            players_list = sort_players_list_by_alphabetical_order(tournament_player_list)
+                            reportingview.display_players_report(players_list)
+                            break
                         if choice == 2:
-                            report.by_rank_order()
+                            players_list = sort_players_list_by_rank_order(tournament_player_list)
+                            reportingview.display_players_report(players_list)
+                            break
                         elif choice == 3:
                             break
                         else:
                             errorview.display_wrong_choice_message()
                     except ValueError:
                         errorview.display_not_an_integer_message()
+                    except errorcontroller.OutOfRangeException:
+                        errorview.display_not_in_selection_range()
 
             elif choice == 3:
                 tournaments_list = prepare_tournament_display()
@@ -67,24 +78,24 @@ def display_reporting():
             errorview.display_not_an_integer_message()
                 
 
-def sort_players_list_by_alphabetical_order():
-    player_list = []
-    for player in Database().player_table:
+def sort_players_list_by_alphabetical_order(self):
+    players_list = []
+    for player in self:
         player = encode_json_to_dict(player)
-        player_list.append(player)
-    player_list.sort(key= lambda player: player.get('last_name'))
+        players_list.append(player)
+    players_list.sort(key= lambda player: player.get('last_name'))
 
-    return player_list
+    return players_list
 
 
-def sort_players_list_by_rank_order():
-    player_list = []
-    for player in Database().player_table:
+def sort_players_list_by_rank_order(self):
+    players_list = []
+    for player in self:
         player = encode_json_to_dict(player)
-        player_list.append(player)
-    player_list.sort(key= lambda player: player.get('rank'))
+        players_list.append(player)
+    players_list.sort(key= lambda player: player.get('rank'))
 
-    return player_list
+    return players_list
 
 
 def prepare_tournament_display():
