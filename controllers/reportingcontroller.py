@@ -1,10 +1,10 @@
 """Define a reporting."""
 
 
-from views import reportingview
-from views import errorview
 from models.database import Database
 from models.encoder import encode_json_to_dict
+from views import reportingview
+from views import errorview
 
 
 def display_reporting():
@@ -48,7 +48,8 @@ def display_reporting():
                         errorview.display_not_an_integer_message()
 
             elif choice == 3:
-                reportingview.display_all_tournament_report()
+                tournaments_list = prepare_tournament_display()
+                reportingview.display_all_tournament_report(tournaments_list)
 
             elif choice == 4:
                 reportingview.display_all_rounds_tournament_report()
@@ -84,3 +85,12 @@ def sort_players_list_by_rank_order():
     player_list.sort(key= lambda player: player.get('rank'))
 
     return player_list
+
+
+def prepare_tournament_display():
+    tournaments_list = []
+    for tournament in Database().tournament_table:
+        tournament = encode_json_to_dict(tournament)
+        tournaments_list.append(tournament)
+
+    return tournaments_list

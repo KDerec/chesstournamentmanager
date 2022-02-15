@@ -19,7 +19,7 @@ class Database:
         for player in self.player_table:
             print(player.doc_id, player['last_name'], player['first_name'], player['rank'])
     
-    def insert_player_in_table(self, player):        
+    def insert_player_in_table(self, player):     
         self.player_table.insert(player)
 
     def insert_tournament_in_table(self, tournament):        

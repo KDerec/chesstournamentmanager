@@ -19,16 +19,10 @@ La création des joueurs est réalisée de manière automatique et ceci ne sera 
 ***
 * Vérifier que l'application fonctionne sous mac et linux,
 
-* Sauvegarde et chargement de l'état du système via TinyDB,
-
 Ajouter la fonctionnalité d'affichage de rapport :
-* Liste de tous les acteurs :
-    * par ordre alphabétique ;
-    * par classement.
 * Liste de tous les joueurs d'un tournoi :
     * par ordre alphabétique ;
     * par classement.
-* Liste de tous les tournois.
 * Liste de tous les tours d'un tournoi.
 * Liste de tous les matchs d'un tournoi.
 
