@@ -12,6 +12,7 @@ from controllers import matchcontroller
 from controllers import systemcontroller
 from controllers import databasecontroller
 from views import errorview
+from views import matchview
 from views import tournamentview
 from views import playerview
 from views import roundview
@@ -192,7 +193,11 @@ def start_tournament(tournament):
             choice = roundview.end_round(i)
             if systemcontroller.choice_verification(choice):
                 roundcontroller.create_ending_round_date(round)
-                results = matchcontroller.create_match_results(players_matchmaking)
+                while True:
+                    results = matchcontroller.create_match_results(players_matchmaking)
+                    choice = matchview.validate_match_result()
+                    if systemcontroller.choice_verification(choice):
+                        break
                 match_list = matchcontroller.create_match_list(results, players_matchmaking)
                 round.match_list = match_list
                 tournament.add_round_in_rounds_list(round)

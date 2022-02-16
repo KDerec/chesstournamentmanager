@@ -19,3 +19,9 @@ def note_the_match(players):
             '(1 pour gagner, 0 perdu, 0.5 pour égalité) : ')
 
     return userinput.input_a_float()
+
+
+def validate_match_result():
+    print('Validez-vous les scores ?')
+
+    return userinput.input_choice()
