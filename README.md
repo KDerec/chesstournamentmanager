@@ -23,9 +23,9 @@ The example below show the creation and the running of a tournament :
 > flake8 --format=html --htmldir=flake-report
 * change directory to flake-report folder,
 > cd ./flake-report
-* open index.html.
+* open index.html
 > index.html
-*With Windows PowerShell :*
+* *With Windows PowerShell :*
 > ./index.html
 ## TODO 
 ***
