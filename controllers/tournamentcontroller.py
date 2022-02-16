@@ -21,28 +21,27 @@ from views.tournamentinput import InputTournament
 
 def prepare_tournament_attributs():
     """Input tournament attributs and return tournament object."""
-
     tournament = InputTournament()
     running = True
     while running:
         try:
-            if tournament.name != False:
+            if tournament.name is not False:
                 pass
             else:
                 tournament.input_name()
-            if tournament.name == '':
+            if tournament.name == "":
                 tournament.name = False
                 raise errorcontroller.EmptyInputException
-            
-            if tournament.location != False:
+
+            if tournament.location is not False:
                 pass
             else:
                 tournament.input_location()
-            if tournament.location == '':
+            if tournament.location == "":
                 tournament.location = False
                 raise errorcontroller.EmptyInputException
-            
-            if tournament.time_controller != False:
+
+            if tournament.time_controller is not False:
                 pass
             else:
                 selected_mode = tournament.input_mode()
@@ -50,16 +49,16 @@ def prepare_tournament_attributs():
                 tournament.time_controller = tournament.mode[selected_mode]
             else:
                 raise errorcontroller.OutOfRangeException
-            
-            if tournament.duration != False:
+
+            if tournament.duration is not False:
                 pass
             else:
                 tournament.input_duration()
             if tournament.duration <= 0:
                 tournament.duration = False
                 raise errorcontroller.NotPositiveIntegerException
-            
-            if tournament.number_of_rounds != False:
+
+            if tournament.number_of_rounds is not False:
                 pass
             else:
                 choice = tournamentview.change_the_number_of_rounds()
@@ -70,15 +69,15 @@ def prepare_tournament_attributs():
             if tournament.number_of_rounds <= 0:
                 tournament.number_of_rounds = False
                 raise errorcontroller.NotPositiveIntegerException
-            
-            if tournament.description != False:
+
+            if tournament.description is not False:
                 pass
             else:
                 choice = tournamentview.add_a_description()
                 if systemcontroller.choice_verification(choice):
                     tournament.input_description()
                 else:
-                    tournament.description = ''
+                    tournament.description = ""
 
             tournament.display_summary()
 
@@ -87,17 +86,15 @@ def prepare_tournament_attributs():
             if systemcontroller.choice_verification(choice):
                 if tournament.duration > 1:
                     first_day = datetime.date.today()
-                    last_day = (first_day + timedelta(days=(
-                                                    tournament.duration-1)))
-                    tournament.date = (str(first_day) + '_' + str(last_day))
+                    last_day = first_day + timedelta(days=(tournament.duration - 1))
+                    tournament.date = str(first_day) + "_" + str(last_day)
                 else:
                     tournament.date = str(datetime.date.today())
-                
+
                 return tournament
-                
+
             else:
                 running = False
-
 
         except ValueError:
             errorview.display_not_an_integer_message()
@@ -111,7 +108,6 @@ def prepare_tournament_attributs():
 
 def call_players_selection_and_start_tournament():
     """Select player to add in tournament and call start_tournament function."""
-
     tournament = prepare_tournament_attributs()
     if tournament:
         select_player_to_add_in_tournament(tournament)
@@ -121,7 +117,6 @@ def call_players_selection_and_start_tournament():
 
 def select_player_to_add_in_tournament(tournament):
     """Select how many players will play and add players in tournament object."""
-
     while True:
         try:
             number_of_player = tournamentview.how_many_player_will_play()
@@ -162,22 +157,21 @@ def select_player_to_add_in_tournament(tournament):
             errorview.display_this_player_is_already_chosen()
         except errorcontroller.OutOfRangeException:
             errorview.display_not_in_selection_range()
-    
+
     tournament.display_player_in_tournament()
 
     choice = tournamentview.validate_chosen_players()
 
     if systemcontroller.choice_verification(choice):
         pass
-        
-    else:    
+
+    else:
         tournament.players_list = []
         select_player_to_add_in_tournament(tournament)
 
 
 def start_tournament(tournament):
     """Run tournament until each rounds are played."""
-
     for i in range(tournament.number_of_rounds):
         propose_to_change_player_rank(tournament)
         while True:
@@ -202,25 +196,23 @@ def start_tournament(tournament):
                 round.match_list = match_list
                 tournament.add_round_in_rounds_list(round)
                 break
-    
+
     propose_to_change_player_rank(tournament)
     prepare_standings(round, tournament)
-    delattr(tournament, 'duration')
+    delattr(tournament, "duration")
     databasecontroller.insert_tournament_in_db(tournament)
 
 
 def prepare_standings(round, tournament):
     """Prepare standings for the end of the tournament."""
-
-    player_matchmaking, classement = roundcontroller.play_round(round, tournament, end = True)
-    print('\nLes résultats du tournoi sont : ')
+    player_matchmaking, classement = roundcontroller.play_round(round, tournament, end=True)
+    print("\nLes résultats du tournoi sont : ")
     for i in range(len(classement)):
         tournamentview.display_standings(player_matchmaking, classement, i)
 
 
 def propose_to_change_player_rank(tournament):
     """Ask for player rank change."""
-
     choice = playerview.change_player_rank()
     if systemcontroller.choice_verification(choice):
         select_player_to_change_his_rank(tournament)
@@ -228,7 +220,6 @@ def propose_to_change_player_rank(tournament):
 
 def select_player_to_change_his_rank(tournament):
     """Select a player in tournament and input new rank."""
-    
     tournament.display_player_in_tournament()
     while True:
         try:
@@ -248,4 +239,3 @@ def select_player_to_change_his_rank(tournament):
             errorview.display_not_in_selection_range()
         except errorcontroller.NotPositiveIntegerException:
             errorview.display_not_positive_integer()
-    

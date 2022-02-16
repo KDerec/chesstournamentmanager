@@ -11,12 +11,11 @@ from views import errorview
 
 def run():
     """Navigate in menus."""
-    
     running = True
     while running:
         try:
             choice = menuview.display_main_menu()
-            
+
             if choice == 1:
                 while True:
                     try:
@@ -30,7 +29,7 @@ def run():
                             errorview.display_wrong_choice_message()
                     except ValueError:
                         errorview.display_not_an_integer_message()
-            
+
             elif choice == 2:
                 while True:
                     try:
@@ -43,7 +42,7 @@ def run():
                             errorview.display_wrong_choice_message()
                     except ValueError:
                         errorview.display_not_an_integer_message()
-            
+
             elif choice == 3:
                 while True:
                     try:
@@ -51,8 +50,6 @@ def run():
                         if choice == 1:
                             reportingcontroller.display_reporting()
                         elif choice == 2:
-                            print('Export rapport.')
-                        elif choice == 3:
                             break
                         else:
                             errorview.display_wrong_choice_message()

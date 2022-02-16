@@ -1,5 +1,6 @@
 """Manage creation of player object."""
 
+
 import datetime
 from controllers import databasecontroller
 from controllers import errorcontroller
@@ -11,33 +12,32 @@ from views.playerinput import PlayerInput
 
 def create_player():
     """Input player attributs and return player object."""
-
     player = PlayerInput()
     while True:
         try:
-            if player.last_name != False:
+            if player.last_name is not False:
                 pass
             else:
                 player.input_last_name()
-            if player.last_name == '':
+            if player.last_name == "":
                 player.last_name = False
                 raise errorcontroller.EmptyInputException
             elif has_numbers(player.last_name):
                 player.last_name = False
                 raise errorcontroller.HasNumberException
-            
-            if player.first_name != False:
+
+            if player.first_name is not False:
                 pass
             else:
                 player.input_first_name()
-            if player.first_name == '':
+            if player.first_name == "":
                 player.first_name = False
                 raise errorcontroller.EmptyInputException
             elif has_numbers(player.first_name):
                 player.first_name = False
                 raise errorcontroller.HasNumberException
-            
-            if player.birthday != False:
+
+            if player.birthday is not False:
                 pass
             else:
                 day = player.input_birthday_day()
@@ -57,8 +57,7 @@ def create_player():
                     raise errorcontroller.ImpossibleBirthdayDateException
                 player.birthday = str(datetime.date(year, month, day))
 
-
-            if player.sexe != False:
+            if player.sexe is not False:
                 pass
             else:
                 selected_sexe = player.input_sexe()
@@ -66,8 +65,8 @@ def create_player():
                 player.sexe = player.possible_sexe[selected_sexe]
             else:
                 raise errorcontroller.OutOfRangeException
-            
-            if player.rank != False:
+
+            if player.rank is not False:
                 pass
             else:
                 player.input_rank()
@@ -82,10 +81,9 @@ def create_player():
             if systemcontroller.choice_verification(choice):
                 databasecontroller.insert_player_in_db(player)
                 break
-                
+
             else:
                 break
-
 
         except ValueError:
             errorview.display_not_an_integer_message()
@@ -103,5 +101,4 @@ def create_player():
 
 def has_numbers(inputString):
     """Check if there is a number in a string list and return True or False."""
-    
     return any(char.isdigit() for char in inputString)
