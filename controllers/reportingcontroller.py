@@ -9,6 +9,7 @@ from views import errorview
 
 
 def display_reporting():
+    """Manage reporting functionality."""
     while True:
         try:
             choice = reportingview.choice_report_to_display()
@@ -62,14 +63,26 @@ def display_reporting():
                     try:
                         tournament_number = choose_a_tournament()
                         tournament_rounds_list = Database().tournament_table.get(doc_id=tournament_number)['rounds_list']
+                        for rounds in tournament_rounds_list:
+                            del rounds['match_list']
                         reportingview.display_all_rounds_tournament_report(tournament_rounds_list)
                         break
                     except ValueError:
                         errorview.display_not_an_integer_message()
 
             elif choice == 5:
-                reportingview.display_all_matchs_tournament_report()
-
+                while True:
+                    try:
+                        tournament_number = choose_a_tournament()
+                        tournament_rounds_list = Database().tournament_table.get(doc_id=tournament_number)['rounds_list']
+                        match_list = []
+                        for rounds in tournament_rounds_list:
+                            match_list.append(rounds['match_list'])
+                        reportingview.display_all_matchs_tournament_report(match_list)
+                        break
+                    except ValueError:
+                        errorview.display_not_an_integer_message()
+                
             elif choice == 6:
                 break
 
@@ -81,6 +94,7 @@ def display_reporting():
                 
 
 def sort_players_list_by_alphabetical_order(self):
+    """Take player table database in argument and return sorted list by alphabetical order."""
     players_list = []
     for player in self:
         player = encode_json_to_dict(player)
@@ -91,6 +105,7 @@ def sort_players_list_by_alphabetical_order(self):
 
 
 def sort_players_list_by_rank_order(self):
+    """Take player table database in argument and return sorted list by rank order."""
     players_list = []
     for player in self:
         player = encode_json_to_dict(player)
@@ -101,15 +116,19 @@ def sort_players_list_by_rank_order(self):
 
 
 def prepare_tournament_display():
+    """Return each tournament in database in a list."""
     tournaments_list = []
     for tournament in Database().tournament_table:
         tournament = encode_json_to_dict(tournament)
+        del tournament['rounds_list']
+        del tournament['players_list']
         tournaments_list.append(tournament)
 
     return tournaments_list
 
 
 def choose_a_tournament():
+    """Manage selection of a tournament."""
     while True:
         try:
             Database().display_tournament_in_database()

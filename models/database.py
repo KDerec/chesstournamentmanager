@@ -21,7 +21,7 @@ class Database:
 
     def display_tournament_in_database(self):
         for tournament in self.tournament_table:
-            print(tournament.doc_id, tournament['name'], 'à', tournament['location'])
+            print(tournament.doc_id,'.',tournament['name'], 'à', tournament['location'], 'le', tournament['date'])
     
     def insert_player_in_table(self, player):     
         self.player_table.insert(player)
