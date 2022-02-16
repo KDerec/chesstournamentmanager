@@ -1,7 +1,7 @@
 # Chess tournament manager
 ***
-Cette application est un gestionnaire de tournoi d'échec hors ligne.
-L'utilisateur peux déclencher le déroulement d'un tournoi, ajouter des joueurs dans une base de donnée et afficher/exporter des rapports des tournois.
+This app is an offline chess tournament manager.
+The user can run tournament, add players to a database and view reports.
 ## Installation
 ***
 * Install Python (https://www.python.org/), 
@@ -12,21 +12,21 @@ L'utilisateur peux déclencher le déroulement d'un tournoi, ajouter des joueurs
 * run main.py and let yourself be guided by the application.
 ## Usage example
 ***
-L'exemple ci-dessous montre la création et le déroulement d'un tournoi.
-La création des joueurs est réalisée de manière automatique et ceci ne sera plus le cas dans la version finale.
+The example below show the creation and the running of a tournament :
+
 ![](https://github.com/KDerec/chesstournamentmanager/blob/master/usage_example.gif)
+## Generate HTML reports of flake8 violations
+***
+* Open a new terminal and change directory to project folder,
+> cd path/to/chesstournamentmanager
+* run the below command,
+> flake8 --format=html --htmldir=flake-report
+* change directory to flake-report folder,
+> cd ./flake-report
+* open index.html.
+> index.html
+*With Windows PowerShell :*
+> ./index.html
 ## TODO 
 ***
 * Vérifier que l'application fonctionne sous mac et linux,
-
-Ajouter la fonctionnalité d'affichage de rapport :
-* Liste de tous les joueurs d'un tournoi :
-    * par ordre alphabétique ;
-    * par classement.
-* Liste de tous les tours d'un tournoi.
-* Liste de tous les matchs d'un tournoi.
-
-* Utiliser flake8 pout le peluchage du code,
-_Pour effectuer le peluchage du code, veuillez utiliser flake8 avec l'option de longueur de ligne maximale fixée à 119. Nous aimerions également voir un rapport généré par flake8-html dans le repository, sous un répertoire appelé "flake8_rapport", qui n'affiche aucune erreur et nous assurera que votre code est conforme aux directives PEP 8._
-
-* Instruction pour générer un rapport flake8.
