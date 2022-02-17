@@ -8,7 +8,7 @@ from tinydb import TinyDB, Query
 class Database:
 
     mydir = os.getcwd()
-    db = TinyDB(mydir + r"\data\db.json")
+    db = TinyDB(mydir + r"/data/db.json")
     player_table = db.table("player_table")
     tournament_table = db.table("tournament_table")
 
