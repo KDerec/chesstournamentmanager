@@ -47,3 +47,9 @@ class NotEnoughPlayerInDatabaseException(Exception):
     """Manage exception for bigger number of player selected as player in database."""
 
     pass
+
+
+class NumberOfPlayerIsTooLow(Exception):
+    """Manage exception for number of player is too low."""
+
+    pass

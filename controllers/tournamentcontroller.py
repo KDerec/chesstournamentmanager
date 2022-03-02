@@ -131,6 +131,8 @@ def select_player_to_add_in_tournament(tournament):
                 raise errorcontroller.NotAnEvenNumberException
             if number_of_player > len(db.player_table):
                 raise errorcontroller.NotEnoughPlayerInDatabaseException
+            if number_of_player < 4:
+                raise errorcontroller.NumberOfPlayerIsTooLow
             break
         except ValueError:
             errorview.display_not_an_integer_message()
@@ -138,6 +140,8 @@ def select_player_to_add_in_tournament(tournament):
             errorview.display_not_an_even_number()
         except errorcontroller.NotEnoughPlayerInDatabaseException:
             errorview.display_you_selected_too_much_player()
+        except errorcontroller.NumberOfPlayerIsTooLow:
+            errorview.display_not_enough_player()
 
     databaseview.display_player_in_db()
     selected_player = []

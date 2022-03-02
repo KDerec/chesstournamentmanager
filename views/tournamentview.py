@@ -20,7 +20,7 @@ def add_a_description():
 
 def how_many_player_will_play():
     """Display how many player will player and return a number."""
-    print("Combien de joueur vont participer au tournoi ? (inscrire un nombre pair): ")
+    print("Combien de joueur vont participer au tournoi ? (inscrire un nombre pair et au minimum 4): ")
 
     return userinput.input_a_number()
 
