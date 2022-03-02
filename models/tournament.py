@@ -42,3 +42,20 @@ class Tournament:
         Nombre de tour: {self.number_of_rounds}
         Description: {self.description}"""
         )
+
+
+class DictToTournament(Tournament):
+    def __init__(
+        self,
+        dict,
+        name=False,
+        location=False,
+        date=False,
+        time_controller=False,
+        number_of_rounds=False,
+        description=False,
+    ):
+        """Initiate dict to tournament object."""
+        super().__init__(name, location, date, time_controller, number_of_rounds, description)
+        for key in dict:
+            setattr(self, key, dict[key])

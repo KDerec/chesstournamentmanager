@@ -102,3 +102,16 @@ def create_player():
 def has_numbers(inputString):
     """Check if there is a number in a string list and return True or False."""
     return any(char.isdigit() for char in inputString)
+
+
+def found_corresponding_player_object_in_list(tournament, player_to_found):
+    """ "With tournament players list, found corresponding player according to dict player and return it."""
+    for player in tournament.players_list:
+        if (
+            player.last_name == player_to_found["last_name"]
+            and player.first_name == player_to_found["first_name"]
+            and player.birthday == player_to_found["birthday"]
+            and player.sexe == player_to_found["sexe"]
+            and player.rank == player_to_found["rank"]
+        ):
+            return player

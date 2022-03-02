@@ -12,3 +12,11 @@ class Round:
     def display_round_name(self):
         """Display round name attribut."""
         print(self.name)
+
+
+class DictToRound(Round):
+    def __init__(self, dict, name=False, beginning_date=False, ending_date=False):
+        """Initiate dict to round object."""
+        super().__init__(name, beginning_date, ending_date)
+        for key in dict:
+            setattr(self, key, dict[key])

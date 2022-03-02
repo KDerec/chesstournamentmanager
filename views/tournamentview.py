@@ -64,3 +64,13 @@ def display_standings(player_matchmaking, classement, i):
         f"{i+1}# avec {classement[player_matchmaking[i]]} points: "
         f"{player_matchmaking[i].first_name} {player_matchmaking[i].last_name}"
     )
+
+
+def tournament_is_not_over(tournament):
+    print(
+        f"Le tournoi '{tournament['name']}' n'est pas terminé "
+        f"(il reste {tournament['number_of_rounds'] - len(tournament['rounds_list'])} tours à jouer). "
+        "Continuer ce tournoi ?"
+    )
+
+    return userinput.input_choice()

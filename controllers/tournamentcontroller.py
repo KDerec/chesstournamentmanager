@@ -6,11 +6,14 @@ from datetime import timedelta
 from models.database import Database as db
 from models.encoder import encode_json_to_dict
 from models.player import DictToPlayer
+from models.tournament import DictToTournament
+from models.round import DictToRound
 from controllers import errorcontroller
 from controllers import roundcontroller
 from controllers import matchcontroller
 from controllers import systemcontroller
 from controllers import databasecontroller
+from controllers import playercontroller
 from views import errorview
 from views import matchview
 from views import tournamentview
@@ -115,6 +118,7 @@ def call_players_selection_and_start_tournament():
     if tournament:
         select_player_to_add_in_tournament(tournament)
         tournamentview.display_start_tournament()
+        databasecontroller.insert_tournament_in_db(tournament)
         start_tournament(tournament)
 
 
@@ -175,13 +179,16 @@ def select_player_to_add_in_tournament(tournament):
 
 def start_tournament(tournament):
     """Run tournament until each rounds are played."""
-    databasecontroller.insert_tournament_in_db(tournament)
-    for i in range(tournament.number_of_rounds):
+    if len(tournament.rounds_list) > 0:
+        round_number = len(tournament.rounds_list)
+    else:
+        round_number = 0
+    while len(tournament.rounds_list) < tournament.number_of_rounds:
         propose_to_change_player_rank(tournament)
         while True:
-            choice = roundview.start_round(i)
+            choice = roundview.start_round(round_number)
             if systemcontroller.choice_verification(choice):
-                round = roundcontroller.create_round(i)
+                round = roundcontroller.create_round(round_number)
                 round.display_round_name()
                 players_matchmaking = roundcontroller.play_round(round, tournament)
                 databasecontroller.update_tournament_in_db(tournament)
@@ -189,7 +196,7 @@ def start_tournament(tournament):
 
         while True:
             propose_to_change_player_rank(tournament)
-            choice = roundview.end_round(i)
+            choice = roundview.end_round(round_number)
             if systemcontroller.choice_verification(choice):
                 roundcontroller.create_ending_round_date(round)
                 while True:
@@ -201,6 +208,7 @@ def start_tournament(tournament):
                 round.match_list = match_list
                 tournament.add_round_in_rounds_list(round)
                 databasecontroller.update_tournament_in_db(tournament)
+                round_number += 1
                 break
 
     propose_to_change_player_rank(tournament)
@@ -244,3 +252,44 @@ def select_player_to_change_his_rank(tournament):
             errorview.display_not_in_selection_range()
         except errorcontroller.NotPositiveIntegerException:
             errorview.display_not_positive_integer()
+
+
+def check_if_a_tournament_is_not_over():
+    """Compare number of round and round list and ask for user answer."""
+    for tournament in db.tournament_table:
+        if len(tournament["rounds_list"]) < tournament["number_of_rounds"]:
+            choice = tournamentview.tournament_is_not_over(tournament)
+
+            if systemcontroller.choice_verification(choice):
+                prepare_tournament_to_restart(tournament)
+
+
+def prepare_tournament_to_restart(tournament):
+    tournament = encode_json_to_dict(tournament)
+    tournament = DictToTournament(tournament)
+    players_list_in_class_format = []
+    for player in tournament.players_list:
+        player = DictToPlayer(player)
+        players_list_in_class_format.append(player)
+    delattr(tournament, "players_list")
+    tournament.players_list = players_list_in_class_format
+
+    rounds_list_in_class_format = []
+    for round in tournament.rounds_list:
+        round = DictToRound(round)
+        rounds_list_in_class_format.append(round)
+    delattr(tournament, "rounds_list")
+    tournament.rounds_list = rounds_list_in_class_format
+    for i in range(len(tournament.rounds_list)):
+        for j in range(len(tournament.rounds_list[i].match_list)):
+            player_one = tournament.rounds_list[i].match_list[j][0][0]
+            player_one = playercontroller.found_corresponding_player_object_in_list(tournament, player_one)
+            del tournament.rounds_list[i].match_list[j][0][0]
+            tournament.rounds_list[i].match_list[j][0].insert(0, player_one)
+
+            player_two = tournament.rounds_list[i].match_list[j][1][0]
+            player_two = playercontroller.found_corresponding_player_object_in_list(tournament, player_two)
+            del tournament.rounds_list[i].match_list[j][1][0]
+            tournament.rounds_list[i].match_list[j][1].insert(0, player_two)
+
+    start_tournament(tournament)
