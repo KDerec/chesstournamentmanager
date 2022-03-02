@@ -3,7 +3,7 @@
 
 import datetime
 from datetime import timedelta
-from models.database import Database
+from models.database import Database as db
 from models.encoder import encode_json_to_dict
 from models.player import DictToPlayer
 from controllers import errorcontroller
@@ -16,6 +16,7 @@ from views import matchview
 from views import tournamentview
 from views import playerview
 from views import roundview
+from views import databaseview
 from views.tournamentinput import InputTournament
 
 
@@ -91,6 +92,8 @@ def prepare_tournament_attributs():
                 else:
                     tournament.date = str(datetime.date.today())
 
+                delattr(tournament, "duration")
+
                 return tournament
 
             else:
@@ -122,7 +125,7 @@ def select_player_to_add_in_tournament(tournament):
             number_of_player = tournamentview.how_many_player_will_play()
             if number_of_player % 2 != 0:
                 raise errorcontroller.NotAnEvenNumberException
-            if number_of_player > len(Database().player_table):
+            if number_of_player > len(db.player_table):
                 raise errorcontroller.NotEnoughPlayerInDatabaseException
             break
         except ValueError:
@@ -132,7 +135,7 @@ def select_player_to_add_in_tournament(tournament):
         except errorcontroller.NotEnoughPlayerInDatabaseException:
             errorview.display_you_selected_too_much_player()
 
-    Database().display_player_in_database()
+    databaseview.display_player_in_db()
     selected_player = []
 
     while len(tournament.players_list) != number_of_player:
@@ -140,11 +143,11 @@ def select_player_to_add_in_tournament(tournament):
             player_number = tournamentview.wich_player_will_play()
             if player_number in selected_player:
                 raise errorcontroller.WrongChosenPlayerException
-            if player_number > len(Database().player_table) or player_number <= 0:
+            if player_number > len(db.player_table) or player_number <= 0:
                 raise errorcontroller.OutOfRangeException
             else:
                 selected_player.append(player_number)
-                player = Database().player_table.get(doc_id=player_number)
+                player = db.player_table.get(doc_id=player_number)
                 player = encode_json_to_dict(player)
                 player = DictToPlayer(player)
                 tournament.add_player_in_players_list(player)
@@ -172,6 +175,7 @@ def select_player_to_add_in_tournament(tournament):
 
 def start_tournament(tournament):
     """Run tournament until each rounds are played."""
+    databasecontroller.insert_tournament_in_db(tournament)
     for i in range(tournament.number_of_rounds):
         propose_to_change_player_rank(tournament)
         while True:
@@ -180,6 +184,7 @@ def start_tournament(tournament):
                 round = roundcontroller.create_round(i)
                 round.display_round_name()
                 players_matchmaking = roundcontroller.play_round(round, tournament)
+                databasecontroller.update_tournament_in_db(tournament)
                 break
 
         while True:
@@ -195,12 +200,12 @@ def start_tournament(tournament):
                 match_list = matchcontroller.create_match_list(results, players_matchmaking)
                 round.match_list = match_list
                 tournament.add_round_in_rounds_list(round)
+                databasecontroller.update_tournament_in_db(tournament)
                 break
 
     propose_to_change_player_rank(tournament)
     prepare_standings(round, tournament)
-    delattr(tournament, "duration")
-    databasecontroller.insert_tournament_in_db(tournament)
+    databasecontroller.update_tournament_in_db(tournament)
 
 
 def prepare_standings(round, tournament):
@@ -227,7 +232,7 @@ def select_player_to_change_his_rank(tournament):
             new_rank = playerview.choice_new_rank()
             if new_rank < 0:
                 raise errorcontroller.NotPositiveIntegerException
-            Database().update_player_rank_in_table(tournament.players_list[selected_player], new_rank)
+            databasecontroller.update_player_rank_in_db(tournament.players_list[selected_player], new_rank)
             tournament.players_list[selected_player].update_player_rank(new_rank)
             break
         except ValueError:

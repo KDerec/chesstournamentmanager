@@ -1,11 +1,12 @@
 """Define a reporting."""
 
 
-from models.database import Database
+from models.database import Database as db
 from models.encoder import encode_json_to_dict
 from controllers import errorcontroller
 from views import reportingview
 from views import errorview
+from views import databaseview
 
 
 def display_reporting():
@@ -19,11 +20,11 @@ def display_reporting():
                     try:
                         choice = reportingview.wich_order()
                         if choice == 1:
-                            players_list = sort_players_list_by_alphabetical_order(Database().player_table)
+                            players_list = sort_players_list_by_alphabetical_order(db.player_table)
                             reportingview.display_players_report(players_list)
                             break
                         elif choice == 2:
-                            players_list = sort_players_list_by_rank_order(Database().player_table)
+                            players_list = sort_players_list_by_rank_order(db.player_table)
                             reportingview.display_players_report(players_list)
                             break
                         elif choice == 3:
@@ -37,9 +38,7 @@ def display_reporting():
                 while True:
                     try:
                         tournament_number = choose_a_tournament()
-                        tournament_player_list = Database().tournament_table.get(doc_id=tournament_number)[
-                            "players_list"
-                        ]
+                        tournament_player_list = db.tournament_table.get(doc_id=tournament_number)["players_list"]
                         choice = reportingview.wich_order()
                         if choice == 1:
                             players_list = sort_players_list_by_alphabetical_order(tournament_player_list)
@@ -64,9 +63,7 @@ def display_reporting():
                 while True:
                     try:
                         tournament_number = choose_a_tournament()
-                        tournament_rounds_list = Database().tournament_table.get(doc_id=tournament_number)[
-                            "rounds_list"
-                        ]
+                        tournament_rounds_list = db.tournament_table.get(doc_id=tournament_number)["rounds_list"]
                         for rounds in tournament_rounds_list:
                             del rounds["match_list"]
                         reportingview.display_all_rounds_tournament_report(tournament_rounds_list)
@@ -78,9 +75,7 @@ def display_reporting():
                 while True:
                     try:
                         tournament_number = choose_a_tournament()
-                        tournament_rounds_list = Database().tournament_table.get(doc_id=tournament_number)[
-                            "rounds_list"
-                        ]
+                        tournament_rounds_list = db.tournament_table.get(doc_id=tournament_number)["rounds_list"]
                         match_list = []
                         for rounds in tournament_rounds_list:
                             match_list.append(rounds["match_list"])
@@ -124,7 +119,7 @@ def sort_players_list_by_rank_order(self):
 def prepare_tournament_display():
     """Return each tournament in database in a list."""
     tournaments_list = []
-    for tournament in Database().tournament_table:
+    for tournament in db.tournament_table:
         tournament = encode_json_to_dict(tournament)
         del tournament["rounds_list"]
         del tournament["players_list"]
@@ -137,9 +132,9 @@ def choose_a_tournament():
     """Manage selection of a tournament."""
     while True:
         try:
-            Database().display_tournament_in_database()
+            databaseview.display_tournament_in_db()
             tournament_number = reportingview.select_tournament_number()
-            if tournament_number > len(Database().tournament_table) or tournament_number <= 0:
+            if tournament_number > len(db.tournament_table) or tournament_number <= 0:
                 raise errorcontroller.OutOfRangeException
             return tournament_number
 
