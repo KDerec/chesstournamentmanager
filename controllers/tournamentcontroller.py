@@ -195,7 +195,7 @@ def start_tournament(tournament):
             if systemcontroller.choice_verification(choice):
                 round = roundcontroller.create_round(round_number)
                 roundview.display_round_name(round)
-                players_matchmaking = roundcontroller.play_round(round, tournament)
+                players_matchmaking = roundcontroller.run_matchmaking(round, tournament)
                 databasecontroller.update_tournament_in_db(tournament)
                 break
 
@@ -223,7 +223,7 @@ def start_tournament(tournament):
 
 def prepare_standings(round, tournament):
     """Prepare standings for the end of the tournament."""
-    player_matchmaking, classement = roundcontroller.play_round(round, tournament, end=True)
+    player_matchmaking, classement = roundcontroller.run_matchmaking(round, tournament, last_round=True)
     print("\nLes résultats du tournoi sont : ")
     for i in range(len(classement)):
         tournamentview.display_standings(player_matchmaking, classement, i)

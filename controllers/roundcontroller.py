@@ -27,16 +27,16 @@ def split_list(self):
     return self[:half], self[half:]
 
 
-def play_round(round, tournament, end=False):
+def run_matchmaking(round, tournament, last_round=False):
     """Check the round number and call matchmaking functions according."""
     if round.name == "Round 1":
-        return matchmaking_for_first_round(tournament)
+        return create_matchmaking_for_first_round(tournament)
 
     else:
-        return matchmaking_for_others_round(tournament, end)
+        return create_matchmaking_for_others_round(tournament, last_round)
 
 
-def matchmaking_for_first_round(tournament):
+def create_matchmaking_for_first_round(tournament):
     """Create matchmaking for first round and return a sorted player list."""
     players_matchmaking = []
     sorted_list = sorted(tournament.players_list, key=lambda player: player.rank, reverse=True)
@@ -50,9 +50,23 @@ def matchmaking_for_first_round(tournament):
     return players_matchmaking
 
 
-def matchmaking_for_others_round(tournament, end):
+def create_matchmaking_for_others_round(tournament, last_round):
     """Create matchmaking and return a sorted player list."""
-    players_matchmaking = []
+    players_and_scores = create_players_and_scores_dict(tournament)
+    players_matchmaking = create_player_matchmaking_list(players_and_scores)
+
+    if last_round is True:
+        return players_matchmaking, players_and_scores
+
+    else:
+        players_matchmaking = arrange_list_if_player_already_played_together(tournament, players_matchmaking)
+        format_and_display_versus_message(players_matchmaking, players_and_scores)
+
+        return players_matchmaking
+
+
+def create_players_and_scores_dict(tournament):
+    """Create a dict with players object and them score and return it."""
     players_and_scores = {}
 
     for i in range(len(tournament.players_list)):
@@ -68,23 +82,30 @@ def matchmaking_for_others_round(tournament, end):
             players_and_scores[player_two] += score_two
 
     players_and_scores = dict(sorted(players_and_scores.items(), key=lambda item: item[1], reverse=True))
-    players_and_scores_to_delete = dict(players_and_scores)
+
+    return players_and_scores
+
+
+def create_player_matchmaking_list(players_and_scores):
+    """Create a list of player and return it."""
+    players_matchmaking = []
+    players_and_scores_to_empty = dict(players_and_scores)
     players_list = list(players_and_scores)
 
-    while players_and_scores_to_delete != {}:
+    while players_and_scores_to_empty != {}:
         temp_player_list = []
         try:
             temp_player_list.append(players_list[0])
         except IndexError:
             break
         for player in players_list:
-            if players_and_scores_to_delete[temp_player_list[0]] == players_and_scores_to_delete[player]:
+            if players_and_scores_to_empty[temp_player_list[0]] == players_and_scores_to_empty[player]:
                 if player in temp_player_list:
                     continue
                 else:
                     temp_player_list.append(player)
 
-                del players_and_scores_to_delete[player]
+                del players_and_scores_to_empty[player]
 
         temp_player_list = sorted(temp_player_list, key=lambda player: player.rank, reverse=True)
 
@@ -92,18 +113,10 @@ def matchmaking_for_others_round(tournament, end):
             players_matchmaking.append(player)
             players_list.remove(player)
 
-    if end is True:
-        return players_matchmaking, players_and_scores
-
-    else:
-        players_matchmaking = check_if_players_already_played_together(tournament, players_matchmaking)
-
-        prepare_versus_message(players_matchmaking, players_and_scores)
-
-        return players_matchmaking
+    return players_matchmaking
 
 
-def check_if_players_already_played_together(tournament, players_matchmaking):
+def arrange_list_if_player_already_played_together(tournament, players_matchmaking):
     """Arrange matchmaking player list and return player list according."""
     for i in range(len(tournament.rounds_list)):
         for j in range(len(tournament.rounds_list[i].match_list)):
@@ -117,10 +130,11 @@ def check_if_players_already_played_together(tournament, players_matchmaking):
     return players_matchmaking
 
 
-def prepare_versus_message(players_matchmaking, players_and_scores):
+def format_and_display_versus_message(players_matchmaking, players_and_scores):
     """Prepare arguments to display versus message."""
     players_matchmaking_for_view = players_matchmaking
     players_and_scores_for_view = players_and_scores
+
     for i in range(len(players_matchmaking_for_view) // 2):
         roundview.display_other_round_versus(i, players_matchmaking_for_view, players_and_scores_for_view)
         players_matchmaking_for_view = players_matchmaking_for_view[1:]
