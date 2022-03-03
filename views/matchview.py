@@ -13,11 +13,9 @@ def display_match_to_note(i, players):
     )
 
 
-def note_the_match(players):
+def note_the_match(self):
     """Display player name and surname and return his result."""
-    print(
-        f"Résulat de {players[0].first_name} {players[0].last_name} " "(1 pour gagner, 0 perdu, 0.5 pour égalité) : "
-    )
+    print(f"Résulat de {self[0].first_name} {self[0].last_name} " "(1 pour gagner, 0 perdu, 0.5 pour égalité) : ")
 
     return userinput.input_a_float()
 

@@ -11,8 +11,7 @@ from views import errorview
 
 def run():
     """Navigate in menus."""
-    running = True
-    while running:
+    while True:
         try:
             choice = menuview.display_main_menu()
 
@@ -21,7 +20,7 @@ def run():
                     try:
                         choice = menuview.display_tournament_menu()
                         if choice == 1:
-                            tournamentcontroller.call_players_selection_and_start_tournament()
+                            tournamentcontroller.prepare_new_tournament_to_start()
 
                         elif choice == 2:
                             break

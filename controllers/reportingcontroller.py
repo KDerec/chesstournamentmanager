@@ -56,7 +56,7 @@ def display_reporting():
                         errorview.display_not_an_integer_message()
 
             elif choice == 3:
-                tournaments_list = prepare_tournament_display()
+                tournaments_list = format_tournaments_to_display()
                 reportingview.display_all_tournament_report(tournaments_list)
 
             elif choice == 4:
@@ -64,8 +64,8 @@ def display_reporting():
                     try:
                         tournament_number = choose_a_tournament()
                         tournament_rounds_list = db.tournament_table.get(doc_id=tournament_number)["rounds_list"]
-                        for rounds in tournament_rounds_list:
-                            del rounds["match_list"]
+                        for round in tournament_rounds_list:
+                            del round["match_list"]
                         reportingview.display_all_rounds_tournament_report(tournament_rounds_list)
                         break
                     except ValueError:
@@ -77,8 +77,8 @@ def display_reporting():
                         tournament_number = choose_a_tournament()
                         tournament_rounds_list = db.tournament_table.get(doc_id=tournament_number)["rounds_list"]
                         match_list = []
-                        for rounds in tournament_rounds_list:
-                            match_list.append(rounds["match_list"])
+                        for round in tournament_rounds_list:
+                            match_list.append(round["match_list"])
                         reportingview.display_all_matchs_tournament_report(match_list)
                         break
                     except ValueError:
@@ -116,8 +116,8 @@ def sort_players_list_by_rank_order(self):
     return players_list
 
 
-def prepare_tournament_display():
-    """Return each tournament in database in a list."""
+def format_tournaments_to_display():
+    """Format and return each tournament in database in a list."""
     tournaments_list = []
     for tournament in db.tournament_table:
         tournament = encode_json_to_dict(tournament)

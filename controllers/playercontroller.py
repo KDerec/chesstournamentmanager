@@ -7,6 +7,7 @@ from controllers import errorcontroller
 from controllers import systemcontroller
 from views import errorview
 from views import playerview
+from views import tournamentview
 from views.playerinput import PlayerInput
 
 
@@ -105,7 +106,7 @@ def has_numbers(inputString):
 
 
 def found_corresponding_player_object_in_list(tournament, player_to_found):
-    """ "With tournament players list, found corresponding player according to dict player and return it."""
+    """With tournament players list, found corresponding player according to dict player and return it."""
     for player in tournament.players_list:
         if (
             player.last_name == player_to_found["last_name"]
@@ -115,3 +116,34 @@ def found_corresponding_player_object_in_list(tournament, player_to_found):
             and player.rank == player_to_found["rank"]
         ):
             return player
+
+
+def propose_to_change_player_rank(tournament):
+    """Ask for player rank change."""
+    choice = playerview.change_player_rank()
+    if systemcontroller.choice_verification(choice):
+        select_player_and_change_his_rank(tournament)
+
+
+def select_player_and_change_his_rank(tournament):
+    """Select a player in tournament and input new rank."""
+    tournamentview.display_player_in_tournament(tournament)
+    while True:
+        try:
+            selected_player = playerview.select_a_player_to_change_his_rank()
+            new_rank = playerview.choice_new_rank()
+            if new_rank < 0:
+                raise errorcontroller.NotPositiveIntegerException
+            databasecontroller.update_player_rank_in_db(tournament.players_list[selected_player], new_rank)
+            tournament.players_list[selected_player].update_player_rank(new_rank)
+            playerview.display_player_rank_is_update(tournament.players_list[selected_player])
+            break
+        except ValueError:
+            choice = tournamentview.return_in_tournament()
+            if systemcontroller.choice_verification(choice):
+                break
+            errorview.display_not_an_integer_message()
+        except IndexError:
+            errorview.display_not_in_selection_range()
+        except errorcontroller.NotPositiveIntegerException:
+            errorview.display_not_positive_integer()

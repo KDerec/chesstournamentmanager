@@ -23,11 +23,20 @@ from views import databaseview
 from views.tournamentinput import InputTournament
 
 
-def prepare_tournament_attributs():
+def prepare_new_tournament_to_start():
+    """Manage creation of tournament and run it when it's complete."""
+    tournament = create_tournament()
+    if tournament:
+        adding_player_in_tournament_process(tournament)
+        tournamentview.display_start_tournament()
+        databasecontroller.insert_tournament_in_db(tournament)
+        run_tournament(tournament)
+
+
+def create_tournament():
     """Input tournament attributs and return tournament object."""
     tournament = InputTournament()
-    running = True
-    while running:
+    while True:
         try:
             if tournament.name is not False:
                 pass
@@ -100,7 +109,7 @@ def prepare_tournament_attributs():
                 return tournament
 
             else:
-                running = False
+                break
 
         except ValueError:
             errorview.display_not_an_integer_message()
@@ -112,18 +121,14 @@ def prepare_tournament_attributs():
             errorview.display_not_positive_integer()
 
 
-def call_players_selection_and_start_tournament():
-    """Select player to add in tournament and call start_tournament function."""
-    tournament = prepare_tournament_attributs()
-    if tournament:
-        select_player_to_add_in_tournament(tournament)
-        tournamentview.display_start_tournament()
-        databasecontroller.insert_tournament_in_db(tournament)
-        start_tournament(tournament)
+def adding_player_in_tournament_process(tournament):
+    """Call functions to add players in tournament."""
+    number_of_player = create_number_of_player()
+    select_and_add_player_in_tournament(tournament, number_of_player)
 
 
-def select_player_to_add_in_tournament(tournament):
-    """Select how many players will play and add players in tournament object."""
+def create_number_of_player():
+    """Choose how many player will play and return this number."""
     while True:
         try:
             number_of_player = tournamentview.how_many_player_will_play()
@@ -143,6 +148,11 @@ def select_player_to_add_in_tournament(tournament):
         except errorcontroller.NumberOfPlayerIsTooLow:
             errorview.display_not_enough_player()
 
+    return number_of_player
+
+
+def select_and_add_player_in_tournament(tournament, number_of_player):
+    """Choose wich players will play and add it in tournament."""
     databaseview.display_player_in_db()
     selected_player = []
 
@@ -179,17 +189,17 @@ def select_player_to_add_in_tournament(tournament):
 
     else:
         tournament.players_list = []
-        select_player_to_add_in_tournament(tournament)
+        adding_player_in_tournament_process(tournament)
 
 
-def start_tournament(tournament):
+def run_tournament(tournament):
     """Run tournament until each rounds are played."""
     if len(tournament.rounds_list) > 0:
         round_number = len(tournament.rounds_list)
     else:
         round_number = 0
     while len(tournament.rounds_list) < tournament.number_of_rounds:
-        propose_to_change_player_rank(tournament)
+        playercontroller.propose_to_change_player_rank(tournament)
         while True:
             choice = roundview.start_round(round_number)
             if systemcontroller.choice_verification(choice):
@@ -200,7 +210,7 @@ def start_tournament(tournament):
                 break
 
         while True:
-            propose_to_change_player_rank(tournament)
+            playercontroller.propose_to_change_player_rank(tournament)
             choice = roundview.end_round(round_number)
             if systemcontroller.choice_verification(choice):
                 roundcontroller.create_ending_round_date(round)
@@ -216,52 +226,21 @@ def start_tournament(tournament):
                 round_number += 1
                 break
 
-    propose_to_change_player_rank(tournament)
-    prepare_standings(round, tournament)
+    playercontroller.propose_to_change_player_rank(tournament)
+    player_matchmaking, classement = roundcontroller.run_matchmaking(round, tournament, last_round=True)
+    prepare_standings(player_matchmaking, classement)
     databasecontroller.update_tournament_in_db(tournament)
 
 
-def prepare_standings(round, tournament):
-    """Prepare standings for the end of the tournament."""
-    player_matchmaking, classement = roundcontroller.run_matchmaking(round, tournament, last_round=True)
+def prepare_standings(player_matchmaking, classement):
+    """Prepare displaying of the standings for the end of the tournament."""
     print("\nLes résultats du tournoi sont : ")
     for i in range(len(classement)):
         tournamentview.display_standings(player_matchmaking, classement, i)
 
 
-def propose_to_change_player_rank(tournament):
-    """Ask for player rank change."""
-    choice = playerview.change_player_rank()
-    if systemcontroller.choice_verification(choice):
-        select_player_to_change_his_rank(tournament)
-
-
-def select_player_to_change_his_rank(tournament):
-    """Select a player in tournament and input new rank."""
-    tournamentview.display_player_in_tournament(tournament)
-    while True:
-        try:
-            selected_player = playerview.select_a_player_to_change_his_rank()
-            new_rank = playerview.choice_new_rank()
-            if new_rank < 0:
-                raise errorcontroller.NotPositiveIntegerException
-            databasecontroller.update_player_rank_in_db(tournament.players_list[selected_player], new_rank)
-            tournament.players_list[selected_player].update_player_rank(new_rank)
-            playerview.display_player_rank_is_update(tournament.players_list[selected_player])
-            break
-        except ValueError:
-            choice = tournamentview.return_in_tournament()
-            if systemcontroller.choice_verification(choice):
-                break
-            errorview.display_not_an_integer_message()
-        except IndexError:
-            errorview.display_not_in_selection_range()
-        except errorcontroller.NotPositiveIntegerException:
-            errorview.display_not_positive_integer()
-
-
 def check_if_a_tournament_is_not_over():
-    """Compare number of round and round list and ask for user answer."""
+    """Compare number of round and round list for each tournament in db and ask for user choice."""
     for tournament in db.tournament_table:
         if len(tournament["rounds_list"]) < tournament["number_of_rounds"]:
             choice = tournamentview.tournament_is_not_over(tournament)
@@ -271,8 +250,17 @@ def check_if_a_tournament_is_not_over():
 
 
 def prepare_tournament_to_restart(tournament):
+    """Call functions to recreate tournament argument in utilizable format."""
     tournament = encode_json_to_dict(tournament)
     tournament = DictToTournament(tournament)
+    encode_tournament_players_list_to_object(tournament)
+    encode_tournament_rounds_list_to_object(tournament)
+    encode_tournament_players_in_match_list_to_object(tournament)
+    run_tournament(tournament)
+
+
+def encode_tournament_players_list_to_object(tournament):
+    """Encode players list from dict to object."""
     players_list_in_class_format = []
     for player in tournament.players_list:
         player = DictToPlayer(player)
@@ -280,12 +268,19 @@ def prepare_tournament_to_restart(tournament):
     delattr(tournament, "players_list")
     tournament.players_list = players_list_in_class_format
 
+
+def encode_tournament_rounds_list_to_object(tournament):
+    """Encode rounds list from dict to object."""
     rounds_list_in_class_format = []
     for round in tournament.rounds_list:
         round = DictToRound(round)
         rounds_list_in_class_format.append(round)
     delattr(tournament, "rounds_list")
     tournament.rounds_list = rounds_list_in_class_format
+
+
+def encode_tournament_players_in_match_list_to_object(tournament):
+    """Encode players in match list from dict to object."""
     for i in range(len(tournament.rounds_list)):
         for j in range(len(tournament.rounds_list[i].match_list)):
             player_one = tournament.rounds_list[i].match_list[j][0][0]
@@ -297,5 +292,3 @@ def prepare_tournament_to_restart(tournament):
             player_two = playercontroller.found_corresponding_player_object_in_list(tournament, player_two)
             del tournament.rounds_list[i].match_list[j][1][0]
             tournament.rounds_list[i].match_list[j][1].insert(0, player_two)
-
-    start_tournament(tournament)

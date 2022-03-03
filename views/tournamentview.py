@@ -87,6 +87,7 @@ def display_player_in_tournament(self):
 
 
 def tournament_is_not_over(self):
+    """Display tournament name isn't over with rounds remaining and ask to continue."""
     print(
         f"Le tournoi '{self['name']}' n'est pas terminé "
         f"(il reste {self['number_of_rounds'] - len(self['rounds_list'])} tours à jouer). "
