@@ -9,10 +9,6 @@ class Round:
         self.ending_date = ending_date
         self.match_list = []
 
-    def display_round_name(self):
-        """Display round name attribut."""
-        print(self.name)
-
 
 class DictToRound(Round):
     def __init__(self, dict, name=False, beginning_date=False, ending_date=False):

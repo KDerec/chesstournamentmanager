@@ -74,7 +74,7 @@ def create_player():
                 player.rank = False
                 raise errorcontroller.NotPositiveIntegerException
 
-            player.display_summary()
+            playerview.display_player_summary(player)
 
             choice = playerview.validate_creation()
 

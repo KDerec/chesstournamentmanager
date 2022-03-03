@@ -83,7 +83,7 @@ def prepare_tournament_attributs():
                 else:
                     tournament.description = ""
 
-            tournament.display_summary()
+            tournamentview.display_tournament_summary(tournament)
 
             choice = tournamentview.validate_creation()
 
@@ -159,6 +159,7 @@ def select_player_to_add_in_tournament(tournament):
                 player = encode_json_to_dict(player)
                 player = DictToPlayer(player)
                 tournament.add_player_in_players_list(player)
+                playerview.display_added_player_message(player)
 
         except ValueError:
             errorview.display_not_an_integer_message()
@@ -169,7 +170,7 @@ def select_player_to_add_in_tournament(tournament):
         except errorcontroller.OutOfRangeException:
             errorview.display_not_in_selection_range()
 
-    tournament.display_player_in_tournament()
+    tournamentview.display_player_in_tournament(tournament)
 
     choice = tournamentview.validate_chosen_players()
 
@@ -193,7 +194,7 @@ def start_tournament(tournament):
             choice = roundview.start_round(round_number)
             if systemcontroller.choice_verification(choice):
                 round = roundcontroller.create_round(round_number)
-                round.display_round_name()
+                roundview.display_round_name(round)
                 players_matchmaking = roundcontroller.play_round(round, tournament)
                 databasecontroller.update_tournament_in_db(tournament)
                 break
@@ -237,7 +238,7 @@ def propose_to_change_player_rank(tournament):
 
 def select_player_to_change_his_rank(tournament):
     """Select a player in tournament and input new rank."""
-    tournament.display_player_in_tournament()
+    tournamentview.display_player_in_tournament(tournament)
     while True:
         try:
             selected_player = playerview.select_a_player_to_change_his_rank()
@@ -246,6 +247,7 @@ def select_player_to_change_his_rank(tournament):
                 raise errorcontroller.NotPositiveIntegerException
             databasecontroller.update_player_rank_in_db(tournament.players_list[selected_player], new_rank)
             tournament.players_list[selected_player].update_player_rank(new_rank)
+            playerview.display_player_rank_is_update(tournament.players_list[selected_player])
             break
         except ValueError:
             choice = tournamentview.return_in_tournament()

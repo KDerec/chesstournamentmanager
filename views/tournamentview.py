@@ -46,6 +46,19 @@ def validate_creation():
     return userinput.input_choice()
 
 
+def display_tournament_summary(self):
+    """Display tournament attributs."""
+    print(
+        f"""Récapitulatif :
+    Nom du tournoi: {self.name}
+    Localisation: {self.location}
+    Mode de jeux: {self.time_controller}
+    Durée du tournoi: {self.duration} jours
+    Nombre de tour: {self.number_of_rounds}
+    Description: {self.description}"""
+    )
+
+
 def display_start_tournament():
     """Display start tournament."""
     print("Le tournoi démarre !")
@@ -66,10 +79,17 @@ def display_standings(player_matchmaking, classement, i):
     )
 
 
-def tournament_is_not_over(tournament):
+def display_player_in_tournament(self):
+    """Display each player object in tournament players list attribut."""
+    print("Les joueurs suivant participent au tournois :")
+    for player in self.players_list:
+        print(f"{self.players_list.index(player)}. {player.last_name} {player.first_name} ({player.rank})")
+
+
+def tournament_is_not_over(self):
     print(
-        f"Le tournoi '{tournament['name']}' n'est pas terminé "
-        f"(il reste {tournament['number_of_rounds'] - len(tournament['rounds_list'])} tours à jouer). "
+        f"Le tournoi '{self['name']}' n'est pas terminé "
+        f"(il reste {self['number_of_rounds'] - len(self['rounds_list'])} tours à jouer). "
         "Continuer ce tournoi ?"
     )
 

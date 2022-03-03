@@ -11,6 +11,18 @@ def validate_creation():
     return userinput.input_choice()
 
 
+def display_player_summary(self):
+    """Display player attributs."""
+    print(
+        f"""Récapitulatif :
+    Nom: {self.last_name}
+    Prénom: {self.first_name}
+    Date de naissance: {self.birthday}
+    Sexe: {self.sexe}
+    Classement: {self.rank}"""
+    )
+
+
 def change_player_rank():
     """Display ask player rank modification and return user choice."""
     print("Voulez-vous modifier le classement d'un joueur ?")
@@ -30,3 +42,13 @@ def choice_new_rank():
     print("Entrer un nombre pour le nouveau classement : ")
 
     return userinput.input_a_number()
+
+
+def display_player_rank_is_update(self):
+    """Display player last and first name with new rank value."""
+    print(f"Le classement de {self.last_name} {self.first_name} est mis à jour ({self.rank}).")
+
+
+def display_added_player_message(self):
+    """Display added player message."""
+    print(f"{self.last_name} {self.first_name} est ajouté.\n")

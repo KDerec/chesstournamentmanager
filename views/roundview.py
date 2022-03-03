@@ -11,6 +11,11 @@ def start_round(self):
     return userinput.input_choice()
 
 
+def display_round_name(self):
+    """Display round name attribut."""
+    print(self.name)
+
+
 def end_round(self):
     """Display end round number and return user choice."""
     print(f"Terminer le tour {self+1} ?")
