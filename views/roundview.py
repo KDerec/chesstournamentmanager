@@ -32,12 +32,14 @@ def display_first_round_versus(i, top_players, low_players):
     )
 
 
-def display_other_round_versus(i, p1, d1):
+def display_other_round_versus(i, players_matchmaking_for_view, players_and_scores_for_view):
     """Display other round versus."""
     print(
         f"Match #{i+1} : "
-        f"{p1[i].first_name} {p1[i].last_name} ({d1[p1[i]]}) vs "
-        f"{p1[i+1].first_name} {p1[i+1].last_name} ({d1[p1[i+1]]}) (joue en blanc)."
+        f"{players_matchmaking_for_view[i].first_name} {players_matchmaking_for_view[i].last_name} "
+        f"({players_and_scores_for_view[players_matchmaking_for_view[i]]}) vs "
+        f"{players_matchmaking_for_view[i+1].first_name} {players_matchmaking_for_view[i+1].last_name} "
+        f"({players_and_scores_for_view[players_matchmaking_for_view[i+1]]}) (joue en blanc)."
     )
 
 

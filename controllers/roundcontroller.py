@@ -119,8 +119,8 @@ def check_if_players_already_played_together(tournament, players_matchmaking):
 
 def prepare_versus_message(players_matchmaking, players_and_scores):
     """Prepare arguments to display versus message."""
-    p1 = players_matchmaking
-    d1 = players_and_scores
-    for i in range(len(p1) // 2):
-        roundview.display_other_round_versus(i, p1, d1)
-        p1 = p1[1:]
+    players_matchmaking_for_view = players_matchmaking
+    players_and_scores_for_view = players_and_scores
+    for i in range(len(players_matchmaking_for_view) // 2):
+        roundview.display_other_round_versus(i, players_matchmaking_for_view, players_and_scores_for_view)
+        players_matchmaking_for_view = players_matchmaking_for_view[1:]
