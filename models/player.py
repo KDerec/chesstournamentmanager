@@ -19,7 +19,15 @@ class Player:
 
 
 class DictToPlayer(Player):
-    def __init__(self, dict, last_name=False, first_name=False, birthday=False, sexe=False, rank=False):
+    def __init__(
+        self,
+        dict,
+        last_name=False,
+        first_name=False,
+        birthday=False,
+        sexe=False,
+        rank=False,
+    ):
         """Initiate dict to player object."""
         super().__init__(last_name, first_name, birthday, sexe, rank)
         for key in dict:

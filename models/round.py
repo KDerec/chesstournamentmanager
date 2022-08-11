@@ -11,7 +11,9 @@ class Round:
 
 
 class DictToRound(Round):
-    def __init__(self, dict, name=False, beginning_date=False, ending_date=False):
+    def __init__(
+        self, dict, name=False, beginning_date=False, ending_date=False
+    ):
         """Initiate dict to round object."""
         super().__init__(name, beginning_date, ending_date)
         for key in dict:

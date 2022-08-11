@@ -32,7 +32,9 @@ def display_first_round_versus(i, top_players, low_players):
     )
 
 
-def display_other_round_versus(i, players_matchmaking_for_view, players_and_scores_for_view):
+def display_other_round_versus(
+    i, players_matchmaking_for_view, players_and_scores_for_view
+):
     """Display other round versus."""
     print(
         f"Match #{i+1} : "

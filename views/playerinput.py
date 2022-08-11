@@ -5,7 +5,14 @@ from models.player import Player
 
 
 class PlayerInput(Player):
-    def __init__(self, last_name=False, first_name=False, birthday=False, sexe=False, rank=False):
+    def __init__(
+        self,
+        last_name=False,
+        first_name=False,
+        birthday=False,
+        sexe=False,
+        rank=False,
+    ):
         """Initiate PlyayerInput object."""
         super().__init__(last_name, first_name, birthday, sexe, rank)
 
@@ -32,7 +39,9 @@ class PlayerInput(Player):
     def input_sexe(self):
         """Input player sexe."""
         print(f"Voici les sexes possible : {self.possible_sexe}.")
-        return int(input("Quelle sexe choisissez-vous ? (Tapez un chiffre) : "))
+        return int(
+            input("Quelle sexe choisissez-vous ? (Tapez un chiffre) : ")
+        )
 
     def input_rank(self):
         """Input player rank."""

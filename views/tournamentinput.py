@@ -16,7 +16,14 @@ class InputTournament(Tournament):
         duration=False,
     ):
         """Initiate InputTournament object."""
-        super().__init__(name, location, date, time_controller, number_of_rounds, description)
+        super().__init__(
+            name,
+            location,
+            date,
+            time_controller,
+            number_of_rounds,
+            description,
+        )
         self.duration = duration
 
     def input_name(self):
@@ -30,11 +37,15 @@ class InputTournament(Tournament):
     def input_mode(self):
         """Display time controller mode and return user choice."""
         print(f"Voici les modes de gestion de temps : {self.mode}.")
-        return int(input("Quelle mode choisissez-vous ? (Tapez un chiffre) : "))
+        return int(
+            input("Quelle mode choisissez-vous ? (Tapez un chiffre) : ")
+        )
 
     def input_duration(self):
         """Input tournament duration."""
-        self.duration = int(input("Combien de jour le tournoi " "vas-t-il durer ? : "))
+        self.duration = int(
+            input("Combien de jour le tournoi " "vas-t-il durer ? : ")
+        )
 
     def input_number_of_rounds(self):
         """Input number of rounds."""

@@ -20,11 +20,17 @@ def display_reporting():
                     try:
                         choice = reportingview.wich_order()
                         if choice == 1:
-                            players_list = sort_players_list_by_alphabetical_order(db.player_table)
+                            players_list = (
+                                sort_players_list_by_alphabetical_order(
+                                    db.player_table
+                                )
+                            )
                             reportingview.display_players_report(players_list)
                             break
                         elif choice == 2:
-                            players_list = sort_players_list_by_rank_order(db.player_table)
+                            players_list = sort_players_list_by_rank_order(
+                                db.player_table
+                            )
                             reportingview.display_players_report(players_list)
                             break
                         elif choice == 3:
@@ -38,14 +44,22 @@ def display_reporting():
                 while True:
                     try:
                         tournament_number = choose_a_tournament()
-                        tournament_player_list = db.tournament_table.get(doc_id=tournament_number)["players_list"]
+                        tournament_player_list = db.tournament_table.get(
+                            doc_id=tournament_number
+                        )["players_list"]
                         choice = reportingview.wich_order()
                         if choice == 1:
-                            players_list = sort_players_list_by_alphabetical_order(tournament_player_list)
+                            players_list = (
+                                sort_players_list_by_alphabetical_order(
+                                    tournament_player_list
+                                )
+                            )
                             reportingview.display_players_report(players_list)
                             break
                         if choice == 2:
-                            players_list = sort_players_list_by_rank_order(tournament_player_list)
+                            players_list = sort_players_list_by_rank_order(
+                                tournament_player_list
+                            )
                             reportingview.display_players_report(players_list)
                             break
                         elif choice == 3:
@@ -63,10 +77,14 @@ def display_reporting():
                 while True:
                     try:
                         tournament_number = choose_a_tournament()
-                        tournament_rounds_list = db.tournament_table.get(doc_id=tournament_number)["rounds_list"]
+                        tournament_rounds_list = db.tournament_table.get(
+                            doc_id=tournament_number
+                        )["rounds_list"]
                         for round in tournament_rounds_list:
                             del round["match_list"]
-                        reportingview.display_all_rounds_tournament_report(tournament_rounds_list)
+                        reportingview.display_all_rounds_tournament_report(
+                            tournament_rounds_list
+                        )
                         break
                     except ValueError:
                         errorview.display_not_an_integer_message()
@@ -75,11 +93,15 @@ def display_reporting():
                 while True:
                     try:
                         tournament_number = choose_a_tournament()
-                        tournament_rounds_list = db.tournament_table.get(doc_id=tournament_number)["rounds_list"]
+                        tournament_rounds_list = db.tournament_table.get(
+                            doc_id=tournament_number
+                        )["rounds_list"]
                         match_list = []
                         for round in tournament_rounds_list:
                             match_list.append(round["match_list"])
-                        reportingview.display_all_matchs_tournament_report(match_list)
+                        reportingview.display_all_matchs_tournament_report(
+                            match_list
+                        )
                         break
                     except ValueError:
                         errorview.display_not_an_integer_message()
@@ -134,7 +156,10 @@ def choose_a_tournament():
         try:
             databaseview.display_tournament_in_db()
             tournament_number = reportingview.select_tournament_number()
-            if tournament_number > len(db.tournament_table) or tournament_number <= 0:
+            if (
+                tournament_number > len(db.tournament_table)
+                or tournament_number <= 0
+            ):
                 raise errorcontroller.OutOfRangeException
             return tournament_number
 

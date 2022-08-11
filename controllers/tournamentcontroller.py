@@ -99,7 +99,9 @@ def create_tournament():
             if systemcontroller.choice_verification(choice):
                 if tournament.duration > 1:
                     first_day = datetime.date.today()
-                    last_day = first_day + timedelta(days=(tournament.duration - 1))
+                    last_day = first_day + timedelta(
+                        days=(tournament.duration - 1)
+                    )
                     tournament.date = str(first_day) + "_" + str(last_day)
                 else:
                     tournament.date = str(datetime.date.today())
@@ -205,7 +207,9 @@ def run_tournament(tournament):
             if systemcontroller.choice_verification(choice):
                 round = roundcontroller.create_round(round_number)
                 roundview.display_round_name(round)
-                players_matchmaking = roundcontroller.run_matchmaking(round, tournament)
+                players_matchmaking = roundcontroller.run_matchmaking(
+                    round, tournament
+                )
                 databasecontroller.update_tournament_in_db(tournament)
                 break
 
@@ -215,11 +219,15 @@ def run_tournament(tournament):
             if systemcontroller.choice_verification(choice):
                 roundcontroller.create_ending_round_date(round)
                 while True:
-                    results = matchcontroller.create_match_results(players_matchmaking)
+                    results = matchcontroller.create_match_results(
+                        players_matchmaking
+                    )
                     choice = matchview.validate_match_result()
                     if systemcontroller.choice_verification(choice):
                         break
-                match_list = matchcontroller.create_match_list(results, players_matchmaking)
+                match_list = matchcontroller.create_match_list(
+                    results, players_matchmaking
+                )
                 round.match_list = match_list
                 tournament.add_round_in_rounds_list(round)
                 databasecontroller.update_tournament_in_db(tournament)
@@ -227,7 +235,9 @@ def run_tournament(tournament):
                 break
 
     playercontroller.propose_to_change_player_rank(tournament)
-    player_matchmaking, classement = roundcontroller.run_matchmaking(round, tournament, last_round=True)
+    player_matchmaking, classement = roundcontroller.run_matchmaking(
+        round, tournament, last_round=True
+    )
     prepare_standings(player_matchmaking, classement)
     databasecontroller.update_tournament_in_db(tournament)
 
@@ -284,11 +294,19 @@ def encode_tournament_players_in_match_list_to_object(tournament):
     for i in range(len(tournament.rounds_list)):
         for j in range(len(tournament.rounds_list[i].match_list)):
             player_one = tournament.rounds_list[i].match_list[j][0][0]
-            player_one = playercontroller.found_corresponding_player_object_in_list(tournament, player_one)
+            player_one = (
+                playercontroller.found_corresponding_player_object_in_list(
+                    tournament, player_one
+                )
+            )
             del tournament.rounds_list[i].match_list[j][0][0]
             tournament.rounds_list[i].match_list[j][0].insert(0, player_one)
 
             player_two = tournament.rounds_list[i].match_list[j][1][0]
-            player_two = playercontroller.found_corresponding_player_object_in_list(tournament, player_two)
+            player_two = (
+                playercontroller.found_corresponding_player_object_in_list(
+                    tournament, player_two
+                )
+            )
             del tournament.rounds_list[i].match_list[j][1][0]
             tournament.rounds_list[i].match_list[j][1].insert(0, player_two)

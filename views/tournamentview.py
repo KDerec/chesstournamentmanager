@@ -6,7 +6,9 @@ from views import userinput
 
 def change_the_number_of_rounds():
     """Display number of rounds modification and return user choice."""
-    print("Le nombre de tour par défaut est de 4. Souhaitez-vous le modifier ?")
+    print(
+        "Le nombre de tour par défaut est de 4. Souhaitez-vous le modifier ?"
+    )
 
     return userinput.input_choice()
 
@@ -20,7 +22,9 @@ def add_a_description():
 
 def how_many_player_will_play():
     """Display how many player will player and return a number."""
-    print("Combien de joueur vont participer au tournoi ? (inscrire un nombre pair et au minimum 4): ")
+    print(
+        "Combien de joueur vont participer au tournoi ? (inscrire un nombre pair et au minimum 4): "
+    )
 
     return userinput.input_a_number()
 
@@ -83,7 +87,9 @@ def display_player_in_tournament(self):
     """Display each player object in tournament players list attribut."""
     print("Les joueurs suivant participent au tournois :")
     for player in self.players_list:
-        print(f"{self.players_list.index(player)}. {player.last_name} {player.first_name} ({player.rank})")
+        print(
+            f"{self.players_list.index(player)}. {player.last_name} {player.first_name} ({player.rank})"
+        )
 
 
 def tournament_is_not_over(self):

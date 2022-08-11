@@ -58,7 +58,9 @@ def display_not_an_even_number():
 
 def display_you_selected_too_much_player():
     """Display message the user selected too much player."""
-    print("!! Vous avez saisie plus de joueur que de joueur dans la base de donnée. !!")
+    print(
+        "!! Vous avez saisie plus de joueur que de joueur dans la base de donnée. !!"
+    )
 
 
 def display_not_enough_player():

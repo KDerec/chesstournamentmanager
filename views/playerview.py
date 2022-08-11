@@ -46,7 +46,9 @@ def choice_new_rank():
 
 def display_player_rank_is_update(self):
     """Display player last and first name with new rank value."""
-    print(f"Le classement de {self.last_name} {self.first_name} est mis à jour ({self.rank}).")
+    print(
+        f"Le classement de {self.last_name} {self.first_name} est mis à jour ({self.rank})."
+    )
 
 
 def display_added_player_message(self):

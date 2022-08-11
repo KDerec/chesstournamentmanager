@@ -5,7 +5,15 @@ class Tournament:
 
     mode = {0: "bullet", 1: "blitz", 2: "rapide"}
 
-    def __init__(self, name, location, date, time_controller, number_of_rounds, description):
+    def __init__(
+        self,
+        name,
+        location,
+        date,
+        time_controller,
+        number_of_rounds,
+        description,
+    ):
         """Initiate tournament object."""
         self.name = name
         self.location = location
@@ -37,6 +45,13 @@ class DictToTournament(Tournament):
         description=False,
     ):
         """Initiate dict to tournament object."""
-        super().__init__(name, location, date, time_controller, number_of_rounds, description)
+        super().__init__(
+            name,
+            location,
+            date,
+            time_controller,
+            number_of_rounds,
+            description,
+        )
         for key in dict:
             setattr(self, key, dict[key])
