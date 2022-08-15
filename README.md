@@ -3,8 +3,7 @@
 
 <!-- PROJECT LOGO -->
 <div align="center">
-  <a href="https://github.com/KDerec/chesstournamentmanager.git">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/KDerec/chesstournamentmanager/blob/master/images/logo.png"><img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Software program in Python</h3>
@@ -24,6 +23,7 @@
     <li><a href="#generate-html-reports-of-flake8-violations">Flake8 report</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
@@ -70,7 +70,7 @@ Tournaments and players are <b>all save</b> in a local database.
 
 ### Built With
 
-* [Python 3.9.6](https://www.python.org/)
+* [Python](https://www.python.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -194,7 +194,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Kévin Dérécusson - kevin.derecusson@outlook.fr
 
-Project Link: [https://github.com/KDerec/](https://github.com/KDerec/)
+Project Link: [https://github.com/KDerec/chesstournamentmanager](https://github.com/KDerec/chesstournamentmanager)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
