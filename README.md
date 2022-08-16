@@ -198,5 +198,5 @@ Project Link: [https://github.com/KDerec/chesstournamentmanager](https://github.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<i>This student project is the #2 of my training.  
+<i>This student project is the #3 of my training.  
 You can follow the previous <a href="https://github.com/KDerec/LearnHome">here</a> and next one <a href="https://github.com/KDerec/just-stream-it">here</a>.</i>
