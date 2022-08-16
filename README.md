@@ -8,7 +8,7 @@
 
 <h3 align="center">Software program in Python</h3>
   <p align="center">
-    This student project is the #2 of my training.<br>You can follow the pevious <a href="https://github.com/KDerec/bookscrap">here</a> and next one <a href="https://github.com/KDerec/just-stream-it">here</a>.
+    This student project is the #3 of my training.<br>You can follow the previous <a href="https://github.com/KDerec/LearnHome">here</a> and next one <a href="https://github.com/KDerec/just-stream-it">here</a>.
   </p>
 </div>
 
@@ -199,4 +199,4 @@ Project Link: [https://github.com/KDerec/chesstournamentmanager](https://github.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <i>This student project is the #2 of my training.  
-You can follow the pevious <a href="https://github.com/KDerec/bookscrap">here</a> and next one <a href="https://github.com/KDerec/just-stream-it">here</a>.</i>
+You can follow the previous <a href="https://github.com/KDerec/LearnHome">here</a> and next one <a href="https://github.com/KDerec/just-stream-it">here</a>.</i>
