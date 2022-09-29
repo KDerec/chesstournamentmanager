@@ -34,8 +34,18 @@
 - Structure the code of a Python program using a <b>MVC (Model-View-Controller)</b> design pattern.
 - Write robust Python code using <b>PEP 8</b> style guide.
 - Work with a <b>database</b> of JSON type <b>(TinyDB)</b>.
-### 🚀 Project goal
-Develop an offline command-line application with local database to manage chess tournament event.  
+### 📖 Scenario
+I recently became a freelance Python developer and the **first opportunity** to work on a potential client project came when my friend Elie, a member of the **local chess club**, told me about her recent **tournament experience**. 
+
+📬 -> "It was a total disaster," she says. "After we finished the first round, the **Internet stopped working** and the tournament director couldn't enter the scores on the results site, someone tried to enter the scores from his phone, but when he tried, he said the site itself was **down** 😱 ! Finally, the tournament was rescheduled for next week. It was **horrible**!".  
+
+At this point, I suggest that I can help the club 💡 by writing a tool that has the **same functionality**, but works **offline**. 
+
+Elie talked to Edouard, the chess club organizer, about this and he is interested 🎉.
+
+### 🚧🚀 Project goal & deliverable
+Develop an offline command-line application with local database to **manage chess tournament** event and **display reporting**.  
+
 The functionalities of the program are :
 - Create <b>tournament</b> with :
   - Name ;
